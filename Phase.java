@@ -1,3 +1,9 @@
+/**
+ * Game plases, lovingly known as `fase` in the code. The game is always in one of these phases.
+ * The game phase controls what the game renders and how it responds to inputs.
+ * 
+ * @author Jacherr
+ */
 public enum Phase {
     /**
      * -8000 (saves the game and switches to 10 (used after beating a stage))
@@ -20,7 +26,8 @@ public enum Phase {
      */
     PAUSEMENU,
     /**
-     * -6 - this takes a screenshot of the current screen in order to display it in the background of pause, then goes to PAUSE
+     * -6 - this takes a screenshot of the current screen in order to display it in the background of pause, then goes to PAUSE.
+     * may also be used for other background screenshots such as POSTGAME
      */
     PAUSETRIGGER,
     /**
@@ -99,6 +106,10 @@ public enum Phase {
      * 111 - this is the phase the game launches with
      */
     LOADING,
+    /*
+     * 176 - purpose unknown, but it hands over to PREGAME
+     */
+    ONESEVENSIX,
     /**
      * 205 - saves the last selected car after loading a track then hands to PREGAMEMUSIC
      */
@@ -107,4 +118,8 @@ public enum Phase {
      * 9000 - hidden settings menu (may be removed)
      */
     CUSTOMSETTINGS,
+    /**
+     * 9001 - for loading a sage (custom)
+     */
+    LOADSTAGE
 }

@@ -217,13 +217,14 @@ public class DevTool {
                 if (args.length == 1) {
                     try {
                         int n = Integer.parseInt(args[0]);
-                        xt.fase = n;
+                        // TODO
+                        //xt.fase = n;
                         print("Set xtGraphics.fase to " + n);
                     } catch (NumberFormatException e) {
                         print("Invalid argument.");
                     }
                 } else {
-                    print("fase: " + xt.fase);
+                    print("fase: " + xt.fase.toString());
                 }
                 break;
             case "spawn_ai":
@@ -269,7 +270,7 @@ public class DevTool {
                         String path = args[0];
                         if (GameSparker.gameStateID == 1) {
                             checkpoints.stage = -1;
-                            xt.fase = 9001;
+                            xt.fase = Phase.LOADSTAGE;
                             xt.nfmmode = 3;
                             GameSparker.loadStageCus = path;    //idk
                             print("Loading stage from: " + path + ".txt");

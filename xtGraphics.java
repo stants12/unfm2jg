@@ -34,8 +34,8 @@ class xtGraphics extends Panel implements Runnable {
     private final Graphics2D rd;
     private ImageObserver ob;
     private final Applet app;
-    public int fase;
-    private int oldfase;
+    public Phase fase;
+    private Phase oldfase;
     public int starcnt;
     public int unlocked;
     private int lockcnt;
@@ -603,7 +603,7 @@ class xtGraphics extends Panel implements Runnable {
                 practicemode = 0;
             }
         } else {
-            fase = 2;
+            fase = Phase.STAGESELECTTRIGGER;
         }
     }
 
@@ -649,7 +649,7 @@ class xtGraphics extends Panel implements Runnable {
             control.left = false;
             control.handb = false;
             control.enter = false;
-            fase = 1;
+            fase = Phase.STAGESELECT;
         }
     }
 
@@ -1384,7 +1384,7 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public void playsounds(Madness madness, Control control, int i) {
-        if (fase == 0 && starcnt < 35 && cntwis != 8 && !mutes) {
+        if (fase == Phase.INGAME && starcnt < 35 && cntwis != 8 && !mutes) {
             boolean flag = control.up && madness.speed > 0.0F || control.down && madness.speed < 10F;
             boolean flag1 = madness.skid == 1 && control.handb
                     || Math.abs(madness.scz[0]
@@ -1516,7 +1516,7 @@ class xtGraphics extends Panel implements Runnable {
         if (madness.newcar) {
             cntwis = 0;
         }
-        if (fase == 0 || fase == 6 || fase == -1 || fase == -2 || fase == -3 || fase == -4 || fase == -5) {
+        if (fase == Phase.INGAME || fase == Phase.PREGAME || fase == Phase.INSTANTREPLAY || fase == Phase.CAUGHTHIGHLIGHT || fase == Phase.GAMEHIGHLIGHT || fase == Phase.POSTGAMEFADEOUT || fase == Phase.POSTGAME) {
             if (mutes != Control.mutes) {
                 mutes = Control.mutes;
             }
@@ -1847,7 +1847,7 @@ class xtGraphics extends Panel implements Runnable {
             strack.setPaused(true);*/
 
         app.setCursor(new Cursor(0));
-        fase = 6;
+        fase = Phase.PREGAME;
         pcontin = 0;
         mutem = false;
         mutes = false;
@@ -2179,31 +2179,31 @@ class xtGraphics extends Panel implements Runnable {
                         strack.setPaused(false);
                     }
                 }
-                fase = 0;
+                fase = Phase.INGAME;
             }
             if (opselect == 1) {
                 if (record.caught >= 300) {
                     if (loadedt) {
                         strack.setPaused(false);
                     }
-                    fase = -1;
+                    fase = Phase.INSTANTREPLAY;
                 } else {
-                    fase = -8;
+                    fase = Phase.NOTENOUGHREPLAYDATA;
                 }
             }
             if (opselect == 2) {
                 if (loadedt) {
                     strack.setPaused(true);
                 }
-                oldfase = -7;
-                fase = 11;
+                oldfase = Phase.PAUSEMENU;
+                fase = Phase.INSTRUCTIONS;
             }
             if (opselect == 3) {
                 if (loadedt) {
                     strack.setPaused(true);
                     strack.unload();
                 }
-                fase = 10;
+                fase = Phase.MAINMENU;
                 opselect = 0;
             }
             control.enter = false;
@@ -2308,7 +2308,7 @@ class xtGraphics extends Panel implements Runnable {
             }
             if (flipo == 104) {
                 flipo = 0;
-                fase = 10;
+                fase = Phase.MAINMENU;
             }
             control.enter = false;
             control.handb = false;
@@ -2323,7 +2323,7 @@ class xtGraphics extends Panel implements Runnable {
                 Medium.flex = 0;
             }
             if (control.enter || holdcnt > 250) {
-                fase = -2;
+                fase = Phase.CAUGHTHIGHLIGHT;
                 control.enter = false;
             }
         } else {
@@ -2334,11 +2334,11 @@ class xtGraphics extends Panel implements Runnable {
                 if (loadedt) {
                     strack.setPaused(true);
                 }
-                fase = -6;
+                fase = Phase.PAUSETRIGGER;
                 control.enter = false;
             }
         }
-        if (fase != -2) {
+        if (fase != Phase.CAUGHTHIGHLIGHT) {
             holdit = false;
             if (checkpoints.wasted == GameFacts.numberOfPlayers - 1 && practicemode == 0) {
                 if (Medium.flex != 2) {
@@ -2430,7 +2430,7 @@ class xtGraphics extends Panel implements Runnable {
                         cntan = 20;
                     }
                 }
-                if (!holdit && fase != -6 && starcnt == 0) {
+                if (!holdit && fase != Phase.PAUSETRIGGER && starcnt == 0) {
                     rd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     arrow(madness[spectate].point, madness[spectate].missedcp, checkpoints, conto, arrace);
 
@@ -3131,7 +3131,7 @@ class xtGraphics extends Panel implements Runnable {
                 unlocked++;
                 HLogger.info(unlocked);
             }
-            fase = -8000;
+            fase = Phase.SAVEGAME;
             flipo = 0;
             control.enter = false;
             control.handb = false;
@@ -3363,7 +3363,7 @@ class xtGraphics extends Panel implements Runnable {
             dudo = 150;
             Medium.trk = false;
             Medium.focus_point = 500;
-            fase = 205;
+            fase = Phase.SELECTEDCARSAVE;
             control.handb = false;
             control.enter = false;
             intertrack.setPaused(true);
@@ -3373,10 +3373,10 @@ class xtGraphics extends Panel implements Runnable {
             sm.play("tick");
             if (checkpoints.stage != unlocked) {
                 checkpoints.stage++;
-                fase = 58;
+                fase = Phase.NPLAYERSCHECK;
                 control.right = false;
             } else {
-                fase = 4;
+                fase = Phase.LOCKEDSTAGE;
                 lockcnt = 100;
                 control.right = false;
             }
@@ -3384,7 +3384,7 @@ class xtGraphics extends Panel implements Runnable {
         if (control.left && checkpoints.stage > 1) {
             sm.play("tick");
             checkpoints.stage--;
-            fase = 58;
+            fase = Phase.NPLAYERSCHECK;
             control.left = false;
         }
     }
@@ -3660,8 +3660,8 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public xtGraphics(Graphics2D graphics2d, Applet applet) {
-        fase = 111;
-        oldfase = 0;
+        fase = Phase.LOADING;
+        oldfase = Phase.INGAME;
         starcnt = 0;
         unlocked = 1;
         lockcnt = 0;
@@ -3983,23 +3983,23 @@ class xtGraphics extends Panel implements Runnable {
         rd.drawImage(opti, 241, 250, null);
         if (control.enter || control.handb) {
             if (opselect == 0) {
-                if (unlocked == 1 && oldfase == 0) {
-                    oldfase = -9;
-                    fase = 11;
+                if (unlocked == 1 && oldfase == Phase.INGAME) {
+                    oldfase = Phase.CARSELECTTRIGGER;
+                    fase = Phase.INSTRUCTIONS;
                 } else {
-                    fase = -9;
+                    fase = Phase.CARSELECTTRIGGER;
                 }
             }
             if (opselect == 1) {
-                oldfase = 10;
-                fase = 11;
+                oldfase = Phase.MAINMENU;
+                fase = Phase.INSTRUCTIONS;
             }
             if (opselect == 2) {
-                fase = 8;
+                fase = Phase.CREDITS;
             }
             if (opselect == 3) {
-                oldfase = 10;
-                fase = 9000;
+                oldfase = Phase.MAINMENU;
+                fase = Phase.CUSTOMSETTINGS;
             }
             flipo = 0;
             control.enter = false;
@@ -4088,7 +4088,7 @@ class xtGraphics extends Panel implements Runnable {
         hipnoload(i, true);
         if (control.handb || control.enter) {
             System.gc();
-            fase = 0;
+            fase = Phase.INGAME;
             control.handb = false;
             control.enter = false;
         }
@@ -4855,7 +4855,7 @@ class xtGraphics extends Panel implements Runnable {
                 intercar.unload();
                 loadIntertrack();
                 Medium.crs = false;
-                fase = 58;
+                fase = Phase.NPLAYERSCHECK;
             }
             control.handb = false;
             control.enter = false;
@@ -4863,7 +4863,7 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public void ctachm(int i, int j, int k, Control control) {
-        if (fase == 1) {
+        if (fase == Phase.STAGESELECT) {
             if (k == 1) {
                 if (over(next[0], i, j, 560, 110)) {
                     pnext = 1;
@@ -4887,7 +4887,7 @@ class xtGraphics extends Panel implements Runnable {
                 }
             }
         }
-        if (fase == 3) {
+        if (fase == Phase.ERRORLOADINGSTAGE) {
             if (k == 1 && over(contin[0], i, j, 290, 325)) {
                 pcontin = 1;
             }
@@ -4896,7 +4896,7 @@ class xtGraphics extends Panel implements Runnable {
                 pcontin = 0;
             }
         }
-        if (fase == 4) {
+        if (fase == Phase.LOCKEDSTAGE) {
             if (k == 1 && over(back[0], i, j, 305, 320)) {
                 pback = 1;
             }
@@ -4905,7 +4905,7 @@ class xtGraphics extends Panel implements Runnable {
                 pback = 0;
             }
         }
-        if (fase == 6) {
+        if (fase == Phase.PREGAME) {
             if (k == 1 && (over(star[0], i, j, 294, 360) || over(star[0], i, j, 294, 270))) {
                 pstar = 2;
             }
@@ -4914,7 +4914,7 @@ class xtGraphics extends Panel implements Runnable {
                 pstar = 1;
             }
         }
-        if (fase == 7) {
+        if (fase == Phase.CARSELECT) {
             if (k == 1) {
                 if (over(next[0], i, j, 580, 250)) {
                     pnext = 1;
@@ -4939,7 +4939,7 @@ class xtGraphics extends Panel implements Runnable {
                 }
             }
         }
-        if (fase == -5) {
+        if (fase == Phase.POSTGAME) {
             lxm = i;
             lym = j;
             if (k == 1 && over(contin[0], i, j, 290, 350 - pin)) {
@@ -4950,7 +4950,7 @@ class xtGraphics extends Panel implements Runnable {
                 pcontin = 0;
             }
         }
-        if (fase == -7) {
+        if (fase == Phase.PAUSEMENU) {
             if (k == 1) {
                 if (overon(264, 45, 137, 22, i, j)) {
                     opselect = 0;
@@ -4990,7 +4990,7 @@ class xtGraphics extends Panel implements Runnable {
                 lym = j;
             }
         }
-        if (fase == 10) {
+        if (fase == Phase.MAINMENU) {
             if (k == 1) {
                 if (overon(278, 246, 110, 22, i, j)) {
                     opselect = 0;
@@ -5023,7 +5023,7 @@ class xtGraphics extends Panel implements Runnable {
                 lym = j;
             }
         }
-        if (fase == 11) {
+        if (fase == Phase.INSTRUCTIONS) {
             if (flipo >= 1 && flipo <= 13) {
                 if (k == 1 && over(next[0], i, j, 600, 370)) {
                     pnext = 1;
@@ -5052,7 +5052,7 @@ class xtGraphics extends Panel implements Runnable {
                 }
             }
         }
-        if (fase == 8) {
+        if (fase == Phase.CREDITS) {
             if (flipo != 102) {
                 if (k == 1 && over(next[0], i, j, 600, 370)) {
                     pnext = 1;
@@ -5112,24 +5112,24 @@ class xtGraphics extends Panel implements Runnable {
         FontHandler.fMetrics = rd.getFontMetrics();
         drawcs(396, "You can also use Keyboard Arrows and Enter to navigate.", 82, 90, 0, 3);
         if (control.handb || control.enter) {
-            fase = 58;
+            fase = Phase.NPLAYERSCHECK;
             control.handb = false;
             control.enter = false;
         }
         if (control.right && checkpoints.stage < 17) {
             if (checkpoints.stage != unlocked) {
                 checkpoints.stage++;
-                fase = 58;
+                fase = Phase.NPLAYERSCHECK;
                 control.right = false;
             } else {
-                fase = 4;
+                fase = Phase.LOCKEDSTAGE;
                 lockcnt = 100;
                 control.right = false;
             }
         }
         if (control.left && checkpoints.stage > 1) {
             checkpoints.stage--;
-            fase = 58;
+            fase = Phase.NPLAYERSCHECK;
             control.left = false;
         }
     }
