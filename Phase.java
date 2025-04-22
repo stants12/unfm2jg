@@ -2,6 +2,8 @@
  * Game plases, lovingly known as `fase` in the code. The game is always in one of these phases.
  * The game phase controls what the game renders and how it responds to inputs.
  * 
+ * All legacy fase codes are listed for reference. New phases you may add do not need this.
+ * 
  * @author Jacherr
  */
 public enum Phase {
