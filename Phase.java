@@ -107,9 +107,9 @@ public enum Phase {
      */
     LOADING,
     /*
-     * 176 - purpose unknown, but it hands over to PREGAME
+     * 176 - draws the 3D environment when necessary
      */
-    ONESEVENSIX,
+    DRAWENVIRONMENT,
     /**
      * 205 - saves the last selected car after loading a track then hands to PREGAMEMUSIC
      */

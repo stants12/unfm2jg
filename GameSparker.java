@@ -1138,7 +1138,7 @@ public class GameSparker extends Applet implements Runnable {
                     mouses = 2;
                 xtgraphics.stageselect(checkpoints, u[0]);
             }
-            if (xtgraphics.fase == Phase.ONESEVENSIX) {
+            if (xtgraphics.fase == Phase.DRAWENVIRONMENT) {
                 Medium.d(rd);
                 int j3 = 0;
                 int ai1[] = new int[200];
@@ -1632,7 +1632,7 @@ public class GameSparker extends Applet implements Runnable {
                     u[0].handb = false;
                 }
             }
-            if (lostfcs && xtgraphics.fase != Phase.ONESEVENSIX && xtgraphics.fase != Phase.LOADING) {
+            if (lostfcs && xtgraphics.fase != Phase.DRAWENVIRONMENT && xtgraphics.fase != Phase.LOADING) {
                 if (xtgraphics.fase == Phase.INGAME)
                     u[0].enter = false;
                 else
@@ -1671,7 +1671,7 @@ public class GameSparker extends Applet implements Runnable {
                     flag1 = false;
                     j1 = 0;
                 }
-                if (i1 == 0 || xtgraphics.fase != Phase.ONESEVENSIX) {
+                if (i1 == 0 || xtgraphics.fase != Phase.DRAWENVIRONMENT) {
                     if (j1 == 10) {
                         if (l5 - l3 < 400L) {
                             f1 = (float) (f1 + 3.5D);
