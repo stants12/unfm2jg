@@ -223,7 +223,7 @@ public class DevTool {
                         print("Invalid argument.");
                     }
                 } else {
-                    print("Usage: fase <n>");
+                    print("fase: " + xt.fase);
                 }
                 break;
             case "spawn_ai":

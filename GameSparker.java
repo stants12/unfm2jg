@@ -1603,9 +1603,9 @@ public class GameSparker extends Applet implements Runnable {
                     xtgraphics.fleximage(offImage, k1, checkpoints.stage);
                 k1++;
                 if (checkpoints.stage == GameFacts.numberOfStages && k1 == 10)
-                    xtgraphics.fase = -205;
+                    xtgraphics.fase = -5;
                 if (k1 == 12)
-                    xtgraphics.fase = -205;
+                    xtgraphics.fase = -5;
             }
             if (xtgraphics.fase == -6) {
                 repaint();
