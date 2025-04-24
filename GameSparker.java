@@ -955,10 +955,6 @@ public class GameSparker extends Applet implements Runnable {
         exwist = false;
 
         do {
-            if (xtgraphics.fase != Phase.LOADING) {
-                xtgraphics.gameMetrics.render(rd);
-            }
-
             Date date1 = new Date();
             long l4 = date1.getTime();
             if (xtgraphics.fase == Phase.LOADING) {
@@ -1770,7 +1766,7 @@ public class GameSparker extends Applet implements Runnable {
             long l2 = Math.round(f1) - (l5 - l4);
             if (l2 < i)
                 l2 = i;
-            if (xtgraphics.fase != Phase.LOADING) {
+            if (xtgraphics.fase != Phase.LOADING && xtgraphics.debugmode) {
                 xtgraphics.gameMetrics.addFrameTimeSample((int) (l5 - l4));
                 xtgraphics.gameMetrics.render(rd);
             }

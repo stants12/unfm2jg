@@ -196,8 +196,8 @@ public class DevTool {
                     debugstat = true;
                 } else {
                     xt.debugmode = false;
-                    print("Debug mode disabled");
-                    godmode = false;
+                    print("Debug mode disabled.");
+                    debugstat = false;
                 }
                 break;
             case "unlocked":
