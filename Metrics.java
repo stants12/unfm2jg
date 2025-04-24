@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * useful for debugging and development purposes.
  */
 public class Metrics {
-    private final int numFrameTimeSamples = 30;
+    private final int numFrameTimeSamples = 50;
     private final Queue<Integer> frameTimes = new LinkedList<Integer>();
 
     private int lastFrameTime = 0;
@@ -67,7 +67,7 @@ public class Metrics {
 
             /* % height compared to max */
             double y_up = (double) next / (double) max_ft;
-            int y_off = (int) ((double) y_up * (double) FT_GRAPH_HEIGHT);
+            int y_off = FT_GRAPH_HEIGHT - (int)((double) y_up * (double) FT_GRAPH_HEIGHT);
             int point_y = y_off + FT_GRAPH_Y_START;
 
             rd.setColor(FT_GRAPH_LINE_COLOR);
