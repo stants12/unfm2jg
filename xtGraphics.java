@@ -14,6 +14,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 class xtGraphics extends Panel implements Runnable {
+    public Metrics gameMetrics = new Metrics();
+
     /**
      *
      */
@@ -142,12 +144,12 @@ class xtGraphics extends Panel implements Runnable {
     private boolean grrd;
     private boolean pwastd;
     public boolean mutes;
-    
+
     // private RadicalMusic stages;
     // private RadicalMusic cars;
     // RadicalMusic tracks[];
 
-    //public final RadicalMod[] stracks;
+    // public final RadicalMod[] stracks;
     public static RadicalMusic strack;
     public static RadicalMusic intertrack = new RadicalMod();
     public static RadicalMusic intercar = new RadicalMod();
@@ -182,15 +184,19 @@ class xtGraphics extends Panel implements Runnable {
     private final String[][] adj = {
             {
                     "Cool", "Alright", "Nice"
-            }, {
-            "Wicked", "Amazing", "Super"
-    }, {
-            "Awesome", "Ripping", "Radical"
-    }, {
-            "What the...?", "Your a super star!!!!", "Who are you again...?"
-    }, {
-            "surf style", "off the lip", "bounce back"
-    }
+            },
+            {
+                    "Wicked", "Amazing", "Super"
+            },
+            {
+                    "Awesome", "Ripping", "Radical"
+            },
+            {
+                    "What the...?", "Your a super star!!!!", "Who are you again...?"
+            },
+            {
+                    "surf style", "off the lip", "bounce back"
+            }
     };
     private final String[] exlm = {
             "!", "!!", "!!!"
@@ -200,7 +206,7 @@ class xtGraphics extends Panel implements Runnable {
     private String asay;
     private int auscnt;
     private boolean aflk;
-    static final int[] sndsize = { //need to add more if you  want more stages :D - Addict
+    static final int[] sndsize = { // need to add more if you want more stages :D - Addict
             106, 76, 56, 116, 92, 208, 70, 80, 152, 102, 27, 65, 52, 30, 151, 129, 70, 0
     };
     private final Image hello;
@@ -274,8 +280,6 @@ class xtGraphics extends Panel implements Runnable {
     public int spectate = 0;
 
     public int nfmmode = 2;
-
-
 
     public static String serverip = "127.0.0.1";
     public static int serverport = 6900;
@@ -567,9 +571,12 @@ class xtGraphics extends Panel implements Runnable {
         int y = Medium.cy + (contos.y - Medium.y - Medium.cy);
         int z = Medium.cz + (contos.z - Medium.z - Medium.cz);
 
-        x = Utility.rotSingle(x, z, Medium.cx, Medium.cz, Medium.xz, RadicalMath.sin(Medium.xz), RadicalMath.cos(Medium.xz))[0];
-        y = Utility.rotSingle(y, z, Medium.cy, Medium.cz, Medium.zy, RadicalMath.sin(Medium.zy), RadicalMath.cos(Medium.zy))[0];
-        z = Utility.rotSingle(y, z, Medium.cy, Medium.cz, Medium.zy, RadicalMath.sin(Medium.zy), RadicalMath.cos(Medium.zy))[1];
+        x = Utility.rotSingle(x, z, Medium.cx, Medium.cz, Medium.xz, RadicalMath.sin(Medium.xz),
+                RadicalMath.cos(Medium.xz))[0];
+        y = Utility.rotSingle(y, z, Medium.cy, Medium.cz, Medium.zy, RadicalMath.sin(Medium.zy),
+                RadicalMath.cos(Medium.zy))[0];
+        z = Utility.rotSingle(y, z, Medium.cy, Medium.cz, Medium.zy, RadicalMath.sin(Medium.zy),
+                RadicalMath.cos(Medium.zy))[1];
 
         final int xScreenCoor = Utility.xs(x, z);
         final int yScreenCoor = Utility.cYs(y, z);
@@ -584,11 +591,11 @@ class xtGraphics extends Panel implements Runnable {
             if (!nplayers_debug) {
                 switch (checkpoints.stage) {
                     // case 2:
-                    //     GameFacts.numberOfPlayers = 10;
-                    //     break;
+                    // GameFacts.numberOfPlayers = 10;
+                    // break;
                     // case 5:
-                    //     GameFacts.numberOfPlayers = 13;
-                    //     break;
+                    // GameFacts.numberOfPlayers = 13;
+                    // break;
                     default:
                         GameFacts.numberOfPlayers = 7;
                         break;
@@ -658,7 +665,7 @@ class xtGraphics extends Panel implements Runnable {
          * 
          * looks better without idc fight me
          * 
-        */
+         */
         trackbg(false);
         rd.setColor(new Color(177, 177, 177));
         rd.fillRoundRect(200, 150, 270, 52, 20, 40);
@@ -670,18 +677,17 @@ class xtGraphics extends Panel implements Runnable {
         drawcs(180, "Loading Stage " + i + ", please wait...", 0, 0, 0, 3);
         rd.drawImage(select, 388, 45, null);
 
-        //rd.drawImage(br, 0, 0, null);
+        // rd.drawImage(br, 0, 0, null);
         rd.setFont(new Font("SansSerif", 1, 11));
         FontHandler.fMetrics = rd.getFontMetrics();
         drawcs(GameFacts.screenHeight - 5, "You can also use Keyboard Arrows and Enter to navigate.", 82, 90, 0, 3);
-        
-        //app.repaint();
 
+        // app.repaint();
 
         // if (lastload != -22) {
-        //     lastload = -22;
+        // lastload = -22;
         // } else {
-        //     stages.stop();
+        // stages.stop();
         // }
     }
 
@@ -842,12 +848,12 @@ class xtGraphics extends Panel implements Runnable {
         }
         rd.setColor(new Color(0, 0, 0));
         rd.setFont(new Font("SansSerif", 1, 13));
-        if (flipo == 3 || flipo == 5) {//2-3 page
+        if (flipo == 3 || flipo == 5) {// 2-3 page
             if (flipo == 3) {
                 rd.drawString("Hello!  This will be changed eventually.", 312, 42);
 
                 //
-                //rd.drawImage(nfm, 519, 30, null);
+                // rd.drawImage(nfm, 519, 30, null);
                 rd.drawString("In this game there are two ways to complete a stage.", 312, 82);
                 rd.drawString("One is by racing and finishing in first place, the other is by", 312, 102);
                 rd.drawString("wasting and crashing all the other cars in the stage!", 312, 122);
@@ -908,9 +914,8 @@ class xtGraphics extends Panel implements Runnable {
             rd.drawString("Left Roll", 504, 350);
             rd.drawString("Right Roll", 640, 350);
 
-
         }
-        if (flipo == 11 || flipo == 13) { //6-7 page
+        if (flipo == 11 || flipo == 13) { // 6-7 page
             if (flipo == 11) {
                 rd.drawString("When wasting cars, to help you find the other cars in the stage,", 312, 42);
                 rd.drawString("press [ A ] to toggle the guidance arrow from pointing to the track", 312, 62);
@@ -933,7 +938,7 @@ class xtGraphics extends Panel implements Runnable {
             rd.drawString("Jumping through it fixes your car.", 93, 313);
             rd.drawString("Make guidance arrow point to cars.", 320, 191);
         }
-        if (flipo == 15) { //8
+        if (flipo == 15) { // 8
             rd.drawString("There is a total of 17 stages!", 357, 42);
             rd.drawString("Every two stages completed a new car will be unlocked!", 357, 62);
             rd.drawString("I am Coach Insano by the way.", 357, 102);
@@ -955,7 +960,7 @@ class xtGraphics extends Panel implements Runnable {
             rd.drawImage(kn, 535, 250, null);
             rd.drawString("Mute Sound Effects", 577, 276);
         }
-        if (flipo == 1) {//first papge
+        if (flipo == 1) {// first papge
             rd.setFont(new Font("SansSerif", 1, 13));
 
             FontHandler.fMetrics = rd.getFontMetrics();
@@ -1022,7 +1027,8 @@ class xtGraphics extends Panel implements Runnable {
 
     public void fleximage(Image image, int i, int j) {
         if (i == 0) {
-            PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth);
+            PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight,
+                    flexpix, 0, GameFacts.screenWidth);
             try {
                 pixelgrabber.grabPixels();
             } catch (InterruptedException _ex) {
@@ -1073,7 +1079,8 @@ class xtGraphics extends Panel implements Runnable {
             Color color1 = new Color(i3, j3, k3);
             flexpix[i2] = color1.getRGB();
         } while (++i2 < 0xE1000);
-        fleximg = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth));
+        fleximg = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0,
+                GameFacts.screenWidth));
         rd.drawImage(fleximg, 0, 0, null);
     }
 
@@ -1091,7 +1098,7 @@ class xtGraphics extends Panel implements Runnable {
          * x resolution plus 30 converted to hex?
          * http://www.binaryhexconverter.com/decimal-to-hex-converter
          */
-        char c1 = '\u02BC'; //2BC
+        char c1 = '\u02BC'; // 2BC
         int k = 0;
         do {
             ai1[k] = byte0;
@@ -1147,7 +1154,7 @@ class xtGraphics extends Panel implements Runnable {
             /*
              * example use of drawOver
              */
-            //drawOver(names[sc[l]], conto[l]);
+            // drawOver(names[sc[l]], conto[l]);
         }
         for (k += Medium.xz; k < 0; k += 360) {
         }
@@ -1388,9 +1395,9 @@ class xtGraphics extends Panel implements Runnable {
             boolean flag = control.up && madness.speed > 0.0F || control.down && madness.speed < 10F;
             boolean flag1 = madness.skid == 1 && control.handb
                     || Math.abs(madness.scz[0]
-                    - (madness.scz[1] + madness.scz[0] + madness.scz[2] + madness.scz[3]) / 4F) > 1.0F
+                            - (madness.scz[1] + madness.scz[0] + madness.scz[2] + madness.scz[3]) / 4F) > 1.0F
                     || Math.abs(madness.scx[0]
-                    - (madness.scx[1] + madness.scx[0] + madness.scx[2] + madness.scx[3]) / 4F) > 1.0F;
+                            - (madness.scx[1] + madness.scx[0] + madness.scx[2] + madness.scx[3]) / 4F) > 1.0F;
             boolean flag2 = false;
             if (control.up && madness.speed < 10F) {
                 flag1 = true;
@@ -1516,7 +1523,9 @@ class xtGraphics extends Panel implements Runnable {
         if (madness.newcar) {
             cntwis = 0;
         }
-        if (fase == Phase.INGAME || fase == Phase.PREGAME || fase == Phase.INSTANTREPLAY || fase == Phase.CAUGHTHIGHLIGHT || fase == Phase.GAMEHIGHLIGHT || fase == Phase.POSTGAMEFADEOUT || fase == Phase.POSTGAME) {
+        if (fase == Phase.INGAME || fase == Phase.PREGAME || fase == Phase.INSTANTREPLAY
+                || fase == Phase.CAUGHTHIGHLIGHT || fase == Phase.GAMEHIGHLIGHT || fase == Phase.POSTGAMEFADEOUT
+                || fase == Phase.POSTGAME) {
             if (mutes != Control.mutes) {
                 mutes = Control.mutes;
             }
@@ -1699,7 +1708,8 @@ class xtGraphics extends Panel implements Runnable {
         rd.setFont(new Font("SansSerif", 1, 11));
         FontHandler.fMetrics = rd.getFontMetrics();
         drawcs(14, "Game lost its focus.   Click screen with mouse to continue.", 100, 100, 100, 3);
-        drawcs(GameFacts.screenHeight - 5, "Game lost its focus.   Click screen with mouse to continue.", 100, 100, 100, 3);
+        drawcs(GameFacts.screenHeight - 5, "Game lost its focus.   Click screen with mouse to continue.", 100, 100, 100,
+                3);
     }
 
     private boolean overon(int i, int j, int k, int l, int i1, int j1) {
@@ -1707,7 +1717,8 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public void pauseimage(Image image) {
-        PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth);
+        PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight,
+                flexpix, 0, GameFacts.screenWidth);
         try {
             pixelgrabber.grabPixels();
         } catch (InterruptedException _ex) {
@@ -1745,44 +1756,45 @@ class xtGraphics extends Panel implements Runnable {
                 flexpix[i1] = color1.getRGB();
             }
         } while (++i1 < 0xE1000);
-        fleximg = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth));
+        fleximg = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0,
+                GameFacts.screenWidth));
         rd.drawImage(fleximg, 0, 0, null);
         Medium.flex = 0;
     }
 
     public static void loadstrack(final int i) {
-        //ACV: Large music files should not be in zip files, so why
-        //not load/read them directly? Checks if the specific file
-        //format exists, then load the music according to stage number.
-        //I haven't applied these changes to all other tracks yet.
+        // ACV: Large music files should not be in zip files, so why
+        // not load/read them directly? Checks if the specific file
+        // format exists, then load the music according to stage number.
+        // I haven't applied these changes to all other tracks yet.
 
-        //thank you for your service acv
+        // thank you for your service acv
         String path = "data/music/" + GameSparker.stageSubDir + "stage" + i;
         boolean customMusic = false;
         String fileFormat = CheckPoints.trackformat;
 
-        //if (i < 1) {
-            if (CheckPoints.customTrack) {
-                customMusic = true;
-                path = "data/music/custom/" + CheckPoints.trackname + "." + CheckPoints.trackformat;
-                HLogger.info(path);
-                if (customMusic) {
-                    File customMFile = new File(path);
-                    HLogger.info(fileFormat);
-                    try {
-                        if (customMFile.exists()) {
-                            strack = TrackZipLoader.loadZip(path, false);
-                        }
-                    } catch (final IOException ex) {
-                        System.out.println("Error loading custom music file: " + path);
-                        ex.printStackTrace();
-                        loadedt = false;
+        // if (i < 1) {
+        if (CheckPoints.customTrack) {
+            customMusic = true;
+            path = "data/music/custom/" + CheckPoints.trackname + "." + CheckPoints.trackformat;
+            HLogger.info(path);
+            if (customMusic) {
+                File customMFile = new File(path);
+                HLogger.info(fileFormat);
+                try {
+                    if (customMFile.exists()) {
+                        strack = TrackZipLoader.loadZip(path, false);
                     }
-                    loadedt = true;
-                    return;
+                } catch (final IOException ex) {
+                    System.out.println("Error loading custom music file: " + path);
+                    ex.printStackTrace();
+                    loadedt = false;
                 }
+                loadedt = true;
+                return;
             }
-        //}
+        }
+        // }
 
         File mp3 = new File(path + ".mp3");
         File ogg = new File(path + ".ogg");
@@ -1822,8 +1834,7 @@ class xtGraphics extends Panel implements Runnable {
 
         boolean flag = false;
 
-
-        if (i == 1 || i == 2 || i == 3 || i == 4 ||i == 5|| i == 7 || i == 8 || i == 9 || i == 10 || i == 12
+        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 7 || i == 8 || i == 9 || i == 10 || i == 12
                 || i == 13 || i == 16) {
             flag = true;
         }
@@ -1833,7 +1844,7 @@ class xtGraphics extends Panel implements Runnable {
             runner.start();
         }
         loadstrack(i);
-        ///aaaaaaaa
+        /// aaaaaaaa
 
         if (flag) {
             runner.interrupt();
@@ -1843,8 +1854,10 @@ class xtGraphics extends Panel implements Runnable {
         System.gc();
 
         strack.play();
-        /*if (loadedt && mutem)
-            strack.setPaused(true);*/
+        /*
+         * if (loadedt && mutem)
+         * strack.setPaused(true);
+         */
 
         app.setCursor(new Cursor(0));
         fase = Phase.PREGAME;
@@ -2103,7 +2116,7 @@ class xtGraphics extends Panel implements Runnable {
         Utility.startTimer();
         dnload += 12;
         try {
-            aimLogo = Utility.webGet("http://i59.servimg.com/u/f59/14/03/33/42/logo10.png"); ///aim games logo
+            aimLogo = Utility.webGet("http://i59.servimg.com/u/f59/14/03/33/42/logo10.png"); /// aim games logo
 
             /// URL goes here
             //
@@ -2438,9 +2451,10 @@ class xtGraphics extends Panel implements Runnable {
                     for (int array_one = 0; array_one < num_cars; array_one++) {
                         boolean flag_status = false;
                         for (int array_two = 0; array_two < num_cars; array_two++) {
-                            if (checkpoints.pos[array_two] == array_one && checkpoints.dested[array_two] == 0 && !flag_status) {
+                            if (checkpoints.pos[array_two] == array_one && checkpoints.dested[array_two] == 0
+                                    && !flag_status) {
                                 int y_value = 30; // use to move status up or down
-                                int x_value = GameFacts.screenWidth - 700;  // use to move status left or right
+                                int x_value = GameFacts.screenWidth - 700; // use to move status left or right
 
                                 rd.setColor(new Color(0, 0, 100));
                                 if (array_one == 0)
@@ -2452,7 +2466,9 @@ class xtGraphics extends Panel implements Runnable {
                                 if (array_one >= 3)
                                     rd.drawString((array_one + 1) + "th", 541 + x_value, 76 + y_value + 30 * array_one);
                                 rd.setColor(new Color(0, 0, 0));
-                                rd.drawString(names[sc[array_two]], 600 - ((FontHandler.fMetrics.stringWidth(names[sc[array_two]])) / 2) + x_value, 70 + y_value + 30 * array_one);
+                                rd.drawString(names[sc[array_two]],
+                                        600 - ((FontHandler.fMetrics.stringWidth(names[sc[array_two]])) / 2) + x_value,
+                                        70 + y_value + 30 * array_one);
                                 if (madness[0].im == array_two) {
                                     int red = (int) (159.0F + (159.0F * ((float) Medium.snap[0] / 100.0F)));
                                     if (red > 255)
@@ -2474,7 +2490,8 @@ class xtGraphics extends Panel implements Runnable {
                                     rd.drawRect(532 + x_value, 59 + y_value + 30 * array_one, 112, 23);
                                 }
                                 if (arrace) {
-                                    int dmg = (int) (60F * ((float) madness[array_two].hitmag / (float) madness[array_two].stat.maxmag));
+                                    int dmg = (int) (60F * ((float) madness[array_two].hitmag
+                                            / (float) madness[array_two].stat.maxmag));
 
                                     int red = 244;
                                     int green = 244;
@@ -2578,19 +2595,22 @@ class xtGraphics extends Panel implements Runnable {
                     if ((position - 3) % 10 == 0 && position != 13) {
                         suffix = "rd";
                     }
-                    if (position % 10 == 0 || position % 10 >= 4 || position == 11 || position == 12 || position == 13) {
+                    if (position % 10 == 0 || position % 10 >= 4 || position == 11 || position == 12
+                            || position == 13) {
                         suffix = "th";
                     }
                     rd.drawString("" + position + suffix + "", 110, 43);
                     rd.setFont(new Font("SansSerif", 1, 11));
                     FontHandler.fMetrics = rd.getFontMetrics();
-                    drawstat(madness[spectate].stat.maxmag, madness[spectate].hitmag, madness[spectate].newcar, madness[spectate].power);
+                    drawstat(madness[spectate].stat.maxmag, madness[spectate].hitmag, madness[spectate].newcar,
+                            madness[spectate].power);
 
                     if (GameSparker.DEBUG) {
                         if (debugmode) {
                             rd.setColor(new Color(0, 0, 0));
                             rd.drawString("pcleared: " + madness[spectate].pcleared, 20, 80);
-                            rd.drawString("checkpoints.clear[" + spectate + "]: " + checkpoints.clear[spectate], 20, 95);
+                            rd.drawString("checkpoints.clear[" + spectate + "]: " + checkpoints.clear[spectate], 20,
+                                    95);
                             rd.drawString("X: " + conto[spectate].x, 20, 400);
                             rd.drawString("Y: " + conto[spectate].y, 20, 420);
                             rd.drawString("Z: " + conto[spectate].z, 20, 440);
@@ -2776,7 +2796,7 @@ class xtGraphics extends Panel implements Runnable {
                         asay += " " + loop;
                     }
                     j = 0;
-                    for (madness[0].travxy = Math.abs(madness[0].travxy); madness[0].travxy > 270; ) {
+                    for (madness[0].travxy = Math.abs(madness[0].travxy); madness[0].travxy > 270;) {
                         madness[0].travxy -= 360;
                         j++;
                     }
@@ -2802,7 +2822,7 @@ class xtGraphics extends Panel implements Runnable {
                     }
                     j = 0;
                     boolean flag1 = false;
-                    for (madness[0].travxz = Math.abs(madness[0].travxz); madness[0].travxz > 90; ) {
+                    for (madness[0].travxz = Math.abs(madness[0].travxz); madness[0].travxz > 90;) {
                         madness[0].travxz -= 180;
                         if ((j += 180) > GameFacts.screenWidth) {
                             j = GameFacts.screenWidth;
@@ -2924,7 +2944,7 @@ class xtGraphics extends Panel implements Runnable {
             }
         }
         if (Medium.lightn != -1 && checkpoints.stage == 16) {
-            //supposed to pulse during sections of the music, w/e
+            // supposed to pulse during sections of the music, w/e
             Medium.lton = true;
         }
     }
@@ -3149,7 +3169,7 @@ class xtGraphics extends Panel implements Runnable {
             int lastcar = GameFacts.numberOfPlayers;
 
             if (GameFacts.numberOfPlayers == 1) {
-                return;     // if there's only 1 car (the player), don't sort anything
+                return; // if there's only 1 car (the player), don't sort anything
             }
 
             int maxId = GameFacts.numberOfPlayers + (i + 1) / 2;
@@ -3163,7 +3183,9 @@ class xtGraphics extends Panel implements Runnable {
             }
 
             // DEBUG: Prints the range of possible cars to the console
-            // HLogger.info("Minimum car: " + cd.names[(i - 1) / 2] + ", maximum car: " + cd.names[nplayers + ((i - 1) / 2)] + ", therefore: " + (((i - 1) / 2) - (nplayers + ((i - 1) / 2))) + " car difference");
+            // HLogger.info("Minimum car: " + cd.names[(i - 1) / 2] + ", maximum car: " +
+            // cd.names[nplayers + ((i - 1) / 2)] + ", therefore: " + (((i - 1) / 2) -
+            // (nplayers + ((i - 1) / 2))) + " car difference");
 
             // create a list of car ids, each item completely unique
             ArrayList<Integer> list = new ArrayList<>();
@@ -3184,13 +3206,15 @@ class xtGraphics extends Panel implements Runnable {
                 sc[j] = list.get(k);
                 k++;
 
-                // if there are more cars than tracks, reduce the car index number until it fits.
-                // unfortunately i have no idea how to make this work properly so we'll just have to ignore the duplicates here
+                // if there are more cars than tracks, reduce the car index number until it
+                // fits.
+                // unfortunately i have no idea how to make this work properly so we'll just
+                // have to ignore the duplicates here
                 while (sc[j] > GameFacts.numberOfCars - 1) {
                     HLogger.error("Car " + j + " is out of bounds");
                     sc[j] -= ThreadLocalRandom.current().nextDouble() * 5F;
                 }
-                //HLogger.info("sc of " + j + " is " + sc[j]);
+                // HLogger.info("sc of " + j + " is " + sc[j]);
             }
         }
         // this error will never be thrown in a deployment environment
@@ -3321,11 +3345,11 @@ class xtGraphics extends Panel implements Runnable {
         intertrack.play();
 
         // rd.setFont(new Font("Adventure", 1, 30));
-        // drawcs(40, "S E L E C T   S T A G E", 255, 128, 0, 3);
-        
-        rd.setColor(new Color(20, 20, 20,100));
-        rd.fillRoundRect(GameFacts.screenWidth/2 - 70, 20, 145, 27,23,30);
-        rd.drawImage(select, GameFacts.screenWidth/2 - 60, 25, null);
+        // drawcs(40, "S E L E C T S T A G E", 255, 128, 0, 3);
+
+        rd.setColor(new Color(20, 20, 20, 100));
+        rd.fillRoundRect(GameFacts.screenWidth / 2 - 70, 20, 145, 27, 23, 30);
+        rd.drawImage(select, GameFacts.screenWidth / 2 - 60, 25, null);
 
         if (checkpoints.stage > 0) {
             if (checkpoints.stage != 1) {
@@ -3336,9 +3360,9 @@ class xtGraphics extends Panel implements Runnable {
             }
         }
 
-        //rectangle     borrowed from g6
-        rd.setColor(new Color(20, 20, 20,100));
-        rd.fillRoundRect(GameFacts.screenWidth/2 - 175, 60, 350, 50,23,30);
+        // rectangle borrowed from g6
+        rd.setColor(new Color(20, 20, 20, 100));
+        rd.fillRoundRect(GameFacts.screenWidth / 2 - 175, 60, 350, 50, 23, 30);
 
         rd.setFont(new Font("SansSerif", 1, 13));
         FontHandler.fMetrics = rd.getFontMetrics();
@@ -3639,10 +3663,10 @@ class xtGraphics extends Panel implements Runnable {
         rd.drawImage(sign, 412, 10, this);
         rd.drawImage(hello, 175, 80, this);
         rd.setColor(new Color(198, 214, 255));
-        rd.fillRoundRect(GameFacts.screenWidth/2 - 150, 315, 300, 80, 30, 70);
+        rd.fillRoundRect(GameFacts.screenWidth / 2 - 150, 315, 300, 80, 30, 70);
         rd.setColor(new Color(128, 167, 255));
-        rd.drawRoundRect(GameFacts.screenWidth/2 - 150, 315, 300, 80, 30, 70);
-        rd.drawImage(loadbar, GameFacts.screenWidth/2 - 166, 340, this);
+        rd.drawRoundRect(GameFacts.screenWidth / 2 - 150, 315, 300, 80, 30, 70);
+        rd.drawImage(loadbar, GameFacts.screenWidth / 2 - 166, 340, this);
         rd.setFont(new Font("SansSerif", 1, 11));
         FontHandler.fMetrics = rd.getFontMetrics();
         drawcs(333, "Loading game, please wait.", 0, 0, 0, 3);
@@ -3656,7 +3680,7 @@ class xtGraphics extends Panel implements Runnable {
         drawcs(385, "" + (int) (((26F + (shload / kbload) * 200F) / 226F) * 100F) + " % loaded    |    "
                 + (kbload - (int) shload) + " KB remaining", 32, 64, 128, 3);
         rd.setColor(new Color(32, 64, 128));
-        rd.fillRect(GameFacts.screenWidth/2 - 169, 346, 26 + (int) ((shload / kbload) * 200F), 10);
+        rd.fillRect(GameFacts.screenWidth / 2 - 169, 346, 26 + (int) ((shload / kbload) * 200F), 10);
     }
 
     public xtGraphics(Graphics2D graphics2d, Applet applet) {
@@ -3791,52 +3815,52 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public void maini(Control control, CheckPoints checkpoints, Madness madness[], ContO conto[], ContO conto1[]) {
-
         // might redo the entire menu its horrible
 
         int menuItems = 4;
 
         if (GameSparker.DEBUG) {
             // if (control.up) {
-            //     dev_up++;
-            //     HLogger.info(dev_up);
+            // dev_up++;
+            // HLogger.info(dev_up);
             // }
             // if (control.down) {
-            //     dev_down++;
-            //     HLogger.info(dev_down);
+            // dev_down++;
+            // HLogger.info(dev_down);
             // }
             // if (control.left) {
-            //     dev_left++;
-            //     HLogger.info(dev_left);
+            // dev_left++;
+            // HLogger.info(dev_left);
             // }
             // if (control.right) {
-            //     dev_right++;
-            //     HLogger.info(dev_right);
+            // dev_right++;
+            // HLogger.info(dev_right);
             // }
 
             // if (control.enter) {
-            //     if ((dev_up == 1 && dev_down == 7 && dev_left == 3 && dev_right == 8) && !devtriggered) {  //1738
-            //         devtriggered = true;
+            // if ((dev_up == 1 && dev_down == 7 && dev_left == 3 && dev_right == 8) &&
+            // !devtriggered) { //1738
+            // devtriggered = true;
 
-            //         dev_up = 0;
-            //         dev_down = 0;
-            //         dev_left = 0;
-            //         dev_right = 0;
+            // dev_up = 0;
+            // dev_down = 0;
+            // dev_left = 0;
+            // dev_right = 0;
 
-                    if (!devtriggered) {
-                        HLogger.info("Developer Console triggered");
+            if (!devtriggered) {
+                HLogger.info("Developer Console triggered");
 
-                        DevTool console = new DevTool(checkpoints, madness, conto, conto1, this);
-                        console.showConsole();
-                        devtriggered = true;
-                    }
-            //     } else {
-            //         dev_up = 0;
-            //         dev_down = 0;
-            //         dev_left = 0;
-            //         dev_right = 0;
-            //         HLogger.info("???");
-            //     }
+                DevTool console = new DevTool(checkpoints, madness, conto, conto1, this);
+                console.showConsole();
+                devtriggered = true;
+            }
+            // } else {
+            // dev_up = 0;
+            // dev_down = 0;
+            // dev_left = 0;
+            // dev_right = 0;
+            // HLogger.info("???");
+            // }
             // }
         }
 
@@ -4127,7 +4151,8 @@ class xtGraphics extends Panel implements Runnable {
                     int k = (int) (((i - 233) / f) * flatr);
                     int l = (int) (((j - flyr) / f) * flatr);
                     int i1 = i + k + 100 + (j + l + 110) * GameFacts.screenWidth;
-                    if (i + k + 100 < GameFacts.screenWidth && i + k + 100 > 0 && j + l + 110 < GameFacts.screenHeight && j + l + 110 > 0 && i1 < 0xE1000
+                    if (i + k + 100 < GameFacts.screenWidth && i + k + 100 > 0 && j + l + 110 < GameFacts.screenHeight
+                            && j + l + 110 > 0 && i1 < 0xE1000
                             && i1 >= 0) {
                         Color color = new Color(flexpix[i1]);
                         Color color1 = new Color(smokey[i + j * 466]);
@@ -4149,7 +4174,8 @@ class xtGraphics extends Panel implements Runnable {
         blackn += blacknados;
         flang += flangados;
         flatr += 10 + flatrstart * 2;
-        Image image = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth));
+        Image image = createImage(new MemoryImageSource(GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0,
+                GameFacts.screenWidth));
         rd.drawImage(image, 0, 0, null);
     }
 
@@ -4165,50 +4191,51 @@ class xtGraphics extends Panel implements Runnable {
         runner.start();
 
         loadimages();
-        //loadnetworkimages();
+        // loadnetworkimages();
 
         // cars = new RadicalMusic("music/cars.radq", 200, 7900, 125, macn);
         // dnload += 27;
 
         // cars = new RadicalMusic("music/cars.mp3");
         // dnload += 3718;
-        
+
         /*
-        int j = 0;
-        do {
-            int k = 0;
-            do {
-                engs[k][j] = getSound("sounds/" + s + "" + k + "" + j + ".au");
-                dnload += 3;
-            } while (++k < 5);
-            pengs[j] = false;
-        } while (++j < 5);
-        */
+         * int j = 0;
+         * do {
+         * int k = 0;
+         * do {
+         * engs[k][j] = getSound("sounds/" + s + "" + k + "" + j + ".au");
+         * dnload += 3;
+         * } while (++k < 5);
+         * pengs[j] = false;
+         * } while (++j < 5);
+         */
         // stages = new RadicalMusic("music/stages.radq", 135, 7800, 125, macn);
         // dnload += 91;
-        
-        
-        /*j = 0;
-        do {
-            air[j] = getSound("sounds/" + s + "air" + j + ".au");
-            dnload += 2;
-        } while (++j < 6);
-        j = 0;
-        do {
-            crash[j] = getSound("sounds/" + s + "crash" + (j + 1) + "." + s1);
-            if (i == 2) {
-                dnload += 10;
-            } else {
-                dnload += 7;
-            }
-        } while (++j < 3);
-        j = 0;
-        do {
-            lowcrash[j] = getSound("sounds/" + s + "lowcrash" + (j + 1) + "." + s1);
-            if (i == 2) {
-                dnload += 10;
-            } else {
-                dnload += 3;*/
+
+        /*
+         * j = 0;
+         * do {
+         * air[j] = getSound("sounds/" + s + "air" + j + ".au");
+         * dnload += 2;
+         * } while (++j < 6);
+         * j = 0;
+         * do {
+         * crash[j] = getSound("sounds/" + s + "crash" + (j + 1) + "." + s1);
+         * if (i == 2) {
+         * dnload += 10;
+         * } else {
+         * dnload += 7;
+         * }
+         * } while (++j < 3);
+         * j = 0;
+         * do {
+         * lowcrash[j] = getSound("sounds/" + s + "lowcrash" + (j + 1) + "." + s1);
+         * if (i == 2) {
+         * dnload += 10;
+         * } else {
+         * dnload += 3;
+         */
         loadsounds();
     }
 
@@ -4219,7 +4246,8 @@ class xtGraphics extends Panel implements Runnable {
             File soundsZip = new File("data/sounds.radq");
             ZipInputStream soundsInputStream = new ZipInputStream(new FileInputStream(soundsZip));
 
-            for (ZipEntry soundEntry = soundsInputStream.getNextEntry(); soundEntry != null; soundEntry = soundsInputStream.getNextEntry()) {
+            for (ZipEntry soundEntry = soundsInputStream
+                    .getNextEntry(); soundEntry != null; soundEntry = soundsInputStream.getNextEntry()) {
                 int size = (int) soundEntry.getSize();
                 String name = soundEntry.getName();
                 byte[] sound = new byte[size];
@@ -4327,107 +4355,108 @@ class xtGraphics extends Panel implements Runnable {
 
                 this.dnload += 5;
             }
-            
-        /*    
-        } while (++j < 3);
-        tires = getSound("sounds/" + s + "tires." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 4;
-        }
-        checkpoint = getSound("sounds/" + s + "checkpoint." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 6;
-        }
-        carfixed = getSound("sounds/" + s + "carfixed." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 10;
-        }
-        powerup = getSound("sounds/" + s + "powerup." + s1);
-        if (i == 2) {
-            dnload += 42;
-        } else {
-            dnload += 8;
-        }
-        three = getSound("sounds/" + s + "three." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 4;
-        }
-        two = getSound("sounds/" + s + "two." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 2;
-        }
-        one = getSound("sounds/" + s + "one." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 4;
-        }
-        go = getSound("sounds/" + s + "go." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 4;
-        }
-        wastd = getSound("sounds/" + s + "wasted." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 4;
-        }
-        firewasted = getSound("sounds/" + s + "firewasted." + s1);
-        if (i == 2) {
-            dnload += 24;
-        } else {
-            dnload += 10; */
+
+            /*
+             * } while (++j < 3);
+             * tires = getSound("sounds/" + s + "tires." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 4;
+             * }
+             * checkpoint = getSound("sounds/" + s + "checkpoint." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 6;
+             * }
+             * carfixed = getSound("sounds/" + s + "carfixed." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 10;
+             * }
+             * powerup = getSound("sounds/" + s + "powerup." + s1);
+             * if (i == 2) {
+             * dnload += 42;
+             * } else {
+             * dnload += 8;
+             * }
+             * three = getSound("sounds/" + s + "three." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 4;
+             * }
+             * two = getSound("sounds/" + s + "two." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 2;
+             * }
+             * one = getSound("sounds/" + s + "one." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 4;
+             * }
+             * go = getSound("sounds/" + s + "go." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 4;
+             * }
+             * wastd = getSound("sounds/" + s + "wasted." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 4;
+             * }
+             * firewasted = getSound("sounds/" + s + "firewasted." + s1);
+             * if (i == 2) {
+             * dnload += 24;
+             * } else {
+             * dnload += 10;
+             */
 
             soundsInputStream.close();
         } catch (Exception var12) {
             HLogger.error("Error Loading Sounds: " + var12);
 
-
         }
-        
+
         /*
-        j = 0;
-        do {
-            skid[j] = getSound("sounds/" + s + "skid" + (j + 1) + "." + s1);
-            if (i == 2) {
-                dnload += 22;
-            } else {
-                dnload += 6;
-            }
-        } while (++j < 3);
-        
-        
-    }
-        j = 0;
-        do {
-            dustskid[j] = getSound("sounds/" + s + "dustskid" + (j + 1) + "." + s1);
-            if (i == 2) {
-                dnload += 22;
-            } else {
-                dnload += 7;
-            }
-        } while (++j < 3);*/
+         * j = 0;
+         * do {
+         * skid[j] = getSound("sounds/" + s + "skid" + (j + 1) + "." + s1);
+         * if (i == 2) {
+         * dnload += 22;
+         * } else {
+         * dnload += 6;
+         * }
+         * } while (++j < 3);
+         * 
+         * 
+         * }
+         * j = 0;
+         * do {
+         * dustskid[j] = getSound("sounds/" + s + "dustskid" + (j + 1) + "." + s1);
+         * if (i == 2) {
+         * dnload += 22;
+         * } else {
+         * dnload += 7;
+         * }
+         * } while (++j < 3);
+         */
 
         System.gc();
     }
 
     public void clicknow() {
         rd.setColor(new Color(198, 214, 255));
-        rd.fillRoundRect(GameFacts.screenWidth/2 - 150, 315, 300, 80, 30, 70);
+        rd.fillRoundRect(GameFacts.screenWidth / 2 - 150, 315, 300, 80, 30, 70);
         rd.setColor(new Color(128, 167, 255));
-        rd.drawRoundRect(GameFacts.screenWidth/2 - 150, 315, 300, 80, 30, 70);
+        rd.drawRoundRect(GameFacts.screenWidth / 2 - 150, 315, 300, 80, 30, 70);
         if (aflk) {
             drawcs(355, "Click here to Start", 0, 0, 0, 3);
             aflk = false;
@@ -4621,7 +4650,7 @@ class xtGraphics extends Panel implements Runnable {
         carsbginflex();
         flatrstart = 0;
         Medium.lightson = false;
-        ///aaaaaaaa
+        /// aaaaaaaa
         (new Thread() {
             public void run() {
                 loadIntercar();
@@ -4634,16 +4663,16 @@ class xtGraphics extends Panel implements Runnable {
     public void carselect(Control control, ContO aconto[], Madness madness) {
         if (flatrstart == 6) {
             rd.drawImage(carsbg, 0, 0, null);
-        // } else if (flatrstart <= 1) {
-        //     drawSmokeCarsbg();
+            // } else if (flatrstart <= 1) {
+            // drawSmokeCarsbg();
         } else {
             rd.setColor(new Color(255, 255, 255, 50));
-            rd.fillRect(0, 0, GameFacts.screenWidth, GameFacts.screenHeight);//change this to your res
+            rd.fillRect(0, 0, GameFacts.screenWidth, GameFacts.screenHeight);// change this to your res
             carsbginflex();
             flatrstart = 6;
         }
         intercar.play();
-        rd.drawImage(selectcar, GameFacts.screenWidth/2 - 75, 12, null);
+        rd.drawImage(selectcar, GameFacts.screenWidth / 2 - 75, 12, null);
         Medium.crs = true;
         Medium.x = -640;
         Medium.y = -600;
@@ -4656,7 +4685,7 @@ class xtGraphics extends Panel implements Runnable {
         if (GameSparker.DEBUG) {
             if (debugmode) {
                 rd.setColor(new Color(255, 255, 255));
-                rd.drawString("sc[" + sc[0]  + "]", 33, 50);
+                rd.drawString("sc[" + sc[0] + "]", 33, 50);
             }
         }
 
@@ -4687,40 +4716,41 @@ class xtGraphics extends Panel implements Runnable {
             }
             if ((sc[0] - 7) * 2 >= unlocked) {
                 // if (gatey == 300) {
-                //     int i = 0;
-                //     do {
-                //         pgas[i] = false;
-                //         pgady[i] = 0;
-                //     } while (++i < 9);
-                //     pgas[0] = true;
+                // int i = 0;
+                // do {
+                // pgas[i] = false;
+                // pgady[i] = 0;
+                // } while (++i < 9);
+                // pgas[0] = true;
                 // }
                 // int j = 0;
                 // do {
-                //     rd.drawImage(pgate, pgatx[j], (pgaty[j] + pgady[j]) - gatey, null);
-                //     if (flatrstart == 6) {
-                //         if (pgas[j]) {
-                //             pgady[j] -= ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
-                //             if (pgady[j] < -(70 + 100 / (j + 1))) {
-                //                 pgas[j] = false;
-                //                 if (j != 8) {
-                //                     pgas[j + 1] = true;
-                //                 }
-                //             }
-                //         } else {
-                //             pgady[j] += ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
-                //             if (pgady[j] > 0) {
-                //                 pgady[j] = 0;
-                //             }
-                //         }
-                //     }
+                // rd.drawImage(pgate, pgatx[j], (pgaty[j] + pgady[j]) - gatey, null);
+                // if (flatrstart == 6) {
+                // if (pgas[j]) {
+                // pgady[j] -= ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
+                // if (pgady[j] < -(70 + 100 / (j + 1))) {
+                // pgas[j] = false;
+                // if (j != 8) {
+                // pgas[j + 1] = true;
+                // }
+                // }
+                // } else {
+                // pgady[j] += ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
+                // if (pgady[j] > 0) {
+                // pgady[j] = 0;
+                // }
+                // }
+                // }
                 // } while (++j < 9);
                 // if (gatey != 0) {
-                //     gatey -= 100;
+                // gatey -= 100;
                 // }
                 aconto[sc[0]].blackout = true;
                 if (flatrstart == 6) {
-                    drawcs(GameFacts.screenHeight - (400-335), "[ Car Locked ]", 210, 210, 210, 3);
-                    drawcs(GameFacts.screenHeight - (400-355), "This car unlocks when stage " + (sc[0] - 7) * 2 + " is completed...", 181, 120, 40, 3);
+                    drawcs(GameFacts.screenHeight - (400 - 335), "[ Car Locked ]", 210, 210, 210, 3);
+                    drawcs(GameFacts.screenHeight - (400 - 355),
+                            "This car unlocks when stage " + (sc[0] - 7) * 2 + " is completed...", 181, 120, 40, 3);
                 }
                 if (aflk) {
                     drawcs(70 + byte0, "[ LOCKED ]", 240, 240, 240, 3);
@@ -4808,11 +4838,11 @@ class xtGraphics extends Panel implements Runnable {
                 if (flipo == 10) {
                     if (nextc) {
                         sc[0]++;
-                        if(sc[0] == GameFacts.numberOfCars)
+                        if (sc[0] == GameFacts.numberOfCars)
                             sc[0] = 0;
                     } else {
                         sc[0]--;
-                        if(sc[0] == -1)
+                        if (sc[0] == -1)
                             sc[0] = GameFacts.numberOfCars - 1;
                     }
                     aconto[sc[0]].z = 950;
@@ -4835,7 +4865,7 @@ class xtGraphics extends Panel implements Runnable {
             }
             nextc = true;
             flipo = 10;
-            //sc[0]++;
+            // sc[0]++;
         }
         if (control.left) {
             sm.play("tick");
@@ -4845,7 +4875,7 @@ class xtGraphics extends Panel implements Runnable {
             }
             nextc = false;
             flipo = 10;
-            //sc[0]--;
+            // sc[0]--;
         }
         if (control.handb || control.enter) {
             sm.play("tick");
@@ -5374,7 +5404,6 @@ class xtGraphics extends Panel implements Runnable {
         return createImage(new MemoryImageSource(l, k, ai, 0, l));
     }
 
-
     /**
      * returns an audioclip
      *
@@ -5393,7 +5422,8 @@ class xtGraphics extends Panel implements Runnable {
         flangados = (int) (Medium.random() * 6F + 2.0F);
         blackn = 0.0F;
         blacknados = Medium.random() * 0.4F;
-        PixelGrabber pixelgrabber = new PixelGrabber(carsbg, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight, flexpix, 0, GameFacts.screenWidth);
+        PixelGrabber pixelgrabber = new PixelGrabber(carsbg, 0, 0, GameFacts.screenWidth, GameFacts.screenHeight,
+                flexpix, 0, GameFacts.screenWidth);
         try {
             pixelgrabber.grabPixels();
         } catch (InterruptedException _ex) {
