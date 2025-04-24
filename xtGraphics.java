@@ -14,6 +14,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 class xtGraphics extends Panel implements Runnable {
+    public Metrics gameMetrics = new Metrics();
+
     /**
      *
      */

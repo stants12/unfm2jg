@@ -955,6 +955,10 @@ public class GameSparker extends Applet implements Runnable {
         exwist = false;
 
         do {
+            if (xtgraphics.fase != Phase.LOADING) {
+                xtgraphics.gameMetrics.render(rd);
+            }
+
             Date date1 = new Date();
             long l4 = date1.getTime();
             if (xtgraphics.fase == Phase.LOADING) {
@@ -1767,17 +1771,8 @@ public class GameSparker extends Applet implements Runnable {
             if (l2 < i)
                 l2 = i;
             if (xtgraphics.fase != Phase.LOADING) {
-                int max_permitted_ft = 48;
-                long ft = l5 - l4;
-                int percent_ft_used = (int) (((double) ft / (double) max_permitted_ft) * 100);
-                rd.setFont(new Font("SansSerif", 1, 11));
-                String out = String.format("Frametime: %d/%d ms (%d%%)", ft, max_permitted_ft, percent_ft_used);
-                FontMetrics metrics = rd.getFontMetrics();
-                Rectangle2D b = metrics.getStringBounds(out, rd);
-                rd.setColor(new Color(255, 255, 255));
-                rd.fillRect(5, 237, (int) b.getWidth() + 10, (int) b.getHeight() + 5);
-                rd.setColor(new Color(percent_ft_used >= 100 ? 255 : 0, 0, 0));
-                rd.drawString(out, 10, 250);
+                xtgraphics.gameMetrics.addFrameTimeSample((int) (l5 - l4));
+                xtgraphics.gameMetrics.render(rd);
             }
             try {
                 Thread.sleep(l2);
