@@ -2713,12 +2713,12 @@ class xtGraphics extends Panel implements Runnable {
                         Medium.flex = 0;
                     }
                     if (dudo != -1) {
-                        rd.drawImage(dudeb[duds], dudo, 0, null);
+                        rd.drawImage(dudeb[duds], Utility.centeredImageX(dudeb[duds]) - 50, 0, null);
                     }
                     if (gocnt != 0) {
-                        rd.drawImage(cntdn[gocnt], 320, 50, null);
+                        rd.drawImage(cntdn[gocnt], Utility.centeredImageX(dudeb[duds]) + 50, 50, null);
                     } else {
-                        rd.drawImage(cntdn[gocnt], 298, 50, null);
+                        rd.drawImage(cntdn[gocnt], Utility.centeredImageX(dudeb[duds]) + 60, 50, null);
                     }
                 }
                 if (looped != 0 && madness[0].loop == 2) {
