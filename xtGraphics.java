@@ -4864,8 +4864,8 @@ class xtGraphics extends Panel implements Runnable {
         intercar.play();
         rd.drawImage(selectcar, Utility.centeredImageX(selectcar), 12, null);
         Medium.crs = true;
-        Medium.x = -640;
-        Medium.y = -600;
+        Medium.x = -GameFacts.screenWidth/2;
+        Medium.y = -(int)(GameFacts.screenHeight*0.83);
         Medium.z = 200;
         Medium.xz = 0;
         Medium.zy = 10;
@@ -5039,6 +5039,7 @@ class xtGraphics extends Panel implements Runnable {
                     aconto[sc[0]].zy = 0;
                 }
                 aconto[sc[0]].y += 100;
+                System.out.println(flipo + ", " + aconto[sc[0]].y);
             }
             flipo--;
         }

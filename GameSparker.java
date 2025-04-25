@@ -294,8 +294,8 @@ public class GameSparker extends Applet implements Runnable {
             this.shaka -= 5;
         }
 
-        this.apx = (int) ((float) (this.getWidth() / 2) - 640.0F);
-        this.apy = (int) ((float) (this.getHeight() / 2) - 360.0F);
+        this.apx = (int) ((float) (this.getWidth() / 2) - GameFacts.screenWidth/2);
+        this.apy = (int) ((float) (this.getHeight() / 2) - GameFacts.screenHeight/2);
         graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2d.drawImage(this.offImage, this.apx + i, this.apy + i_97_, this);
         this.cropit(graphics2d, i, i_97_);
