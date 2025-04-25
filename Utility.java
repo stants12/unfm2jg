@@ -69,7 +69,9 @@ public class Utility {
      *
      * @param i The 3D Z point
      * @param j The 3D Y point
-     * @param m There are two different ys() methods within NFM2, this integer is used to unify them while providing a way to distinguish between them.
+     * @param m There are two different ys() methods within NFM2, this integer is
+     *          used to unify them while providing a way to distinguish between
+     *          them.
      *          0 is for using Medium.cz (normal)
      *          1 is for using 10 (only found in Medium)
      * @return The 2D Y coordinate.
@@ -170,31 +172,47 @@ public class Utility {
     }
 
     /**
-     * Gets the X coordinate an image should be loaded at in order for it to be centered.
+     * Gets the X coordinate an image should be loaded at in order for it to be
+     * centered.
+     * 
      * @param image The image
      * @return The X coordinate
      */
-    public static int centeredImageX(Image image)
-    {
-        return (GameFacts.screenWidth/2)-(image.getWidth(null)/2);
+    public static int centeredImageX(Image image) {
+        return (GameFacts.screenWidth / 2) - (image.getWidth(null) / 2);
     }
 
     /**
-     * Gets the X coordinate an arbitary width component should be loaded at in order for it to be centered.
+     * Gets the X coordinate an arbitary width component should be loaded at in
+     * order for it to be centered.
+     * 
      * @param width The width of the component
      * @return The X coordinate
      */
-    public static int centeredWidthX(int width)
-    {
-        return (GameFacts.screenWidth/2)-(width/2);
+    public static int centeredWidthX(int width) {
+        return (GameFacts.screenWidth / 2) - (width / 2);
+    }
+
+    /**
+     * Gets the Y coordinate an arbitary height component should be loaded at in
+     * order for it to be centered.
+     * 
+     * @param height The height of the component
+     * @return The Y coordinate
+     */
+    public static int centeredHeightY(int height) {
+        return (GameFacts.screenHeight / 2) - (height / 2);
     }
 
     /*
-     * Users of this method should use Eclipse's "Refactor > Inline Method" feature to inline calls to it.
-     * It's a very simple method and the few nanoseconds spent to call it could be crucial especially if used
+     * Users of this method should use Eclipse's "Refactor > Inline Method" feature
+     * to inline calls to it.
+     * It's a very simple method and the few nanoseconds spent to call it could be
+     * crucial especially if used
      * inside of a large loop.
      * 
-     * The usage of Math.pow doesn't affect performance since the Hotspot will inline (turn into x * x) calls to it.
+     * The usage of Math.pow doesn't affect performance since the Hotspot will
+     * inline (turn into x * x) calls to it.
      */
     public static int distance(final int x1, final int y1, final int x2, final int y2) {
         return (int) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -224,14 +242,15 @@ public class Utility {
         }
     }
 
-    public static int[] rotSingle(int poly1, int poly2, final int center1, final int center2, final int angle, final float sin_ang, final float cos_ang) {
+    public static int[] rotSingle(int poly1, int poly2, final int center1, final int center2, final int angle,
+            final float sin_ang, final float cos_ang) {
         if (angle != 0) {
             final int j1 = poly1;
             final int k1 = poly2;
             poly1 = center1 + (int) ((j1 - center1) * cos_ang - (k1 - center2) * sin_ang);
             poly2 = center2 + (int) ((j1 - center1) * sin_ang + (k1 - center2) * cos_ang);
         }
-        return new int[]{
+        return new int[] {
                 poly1, poly2
         };
     }

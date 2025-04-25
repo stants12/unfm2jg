@@ -273,6 +273,9 @@ class xtGraphics extends Panel implements Runnable {
     private int stage_select_continue_button_y = GameFacts.screenHeight - 80;
     private int stage_select_text_y = 25;
 
+    /* post-game continue */
+    private int post_game_continue_button_y = stage_select_continue_button_y;
+
     private final int[] pgatx = {
             146, 175, 215, 267, 334, 401, 452, 493, 521
     };
@@ -1400,7 +1403,7 @@ class xtGraphics extends Panel implements Runnable {
     }
 
     public void levelhigh(int i, int j, int k, int l, int i1) {
-        rd.drawImage(gameh, 236, 20, null);
+        rd.drawImage(gameh, Utility.centeredImageX(gameh), 20, null);
         byte byte0 = 16; ///////////// change this to 1 to relock the game
         char c = '0';
         char c1 = '`';
@@ -3011,10 +3014,10 @@ class xtGraphics extends Panel implements Runnable {
         if (winner) {
             if (checkpoints.stage == unlocked) {
                 if (checkpoints.stage != GameFacts.numberOfStages) {
-                    rd.drawImage(congrd, 200, 30, null);
+                    rd.drawImage(congrd, Utility.centeredImageX(congrd), 30, null);
                     drawcs(80, "Stage " + checkpoints.stage + " Completed!", 170, 170, 170, 3);
                 } else {
-                    rd.drawImage(congrd, 195 + (int) (Medium.random() * 10F), 30, null);
+                    rd.drawImage(congrd, Utility.centeredImageX(congrd) + (int) (Medium.random() * 10F), 30, null);
                 }
                 byte byte0 = 0;
                 int i = 0;
@@ -3070,33 +3073,40 @@ class xtGraphics extends Panel implements Runnable {
                 if (checkpoints.stage != GameFacts.numberOfStages) {
                     rd.setFont(new Font("SansSerif", 1, 13));
                     FontHandler.fMetrics = rd.getFontMetrics();
+                    int carUnlockedBoxHeight = 125;
                     if (aflk) {
-                        drawcs(120 + pin, "Stage " + (checkpoints.stage + 1) + " is now unlocked!", 176, 196, 0, 3);
+                        drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) - 40 + pin,
+                                "Stage " + (checkpoints.stage + 1) + " is now unlocked!", 176, 196, 0, 3);
                     } else {
-                        drawcs(120 + pin, "Stage " + (checkpoints.stage + 1) + " is now unlocked!", 247, 255, 165, 3);
+                        drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) - 40 + pin,
+                                "Stage " + (checkpoints.stage + 1) + " is now unlocked!", 247, 255, 165, 3);
                     }
                     if (byte0 != 0) {
                         if (aflk) {
-                            drawcs(140, "And:", 176, 196, 0, 3);
+                            drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) - 20, "And:", 176, 196, 0, 3);
                         } else {
-                            drawcs(140, "And:", 247, 255, 165, 3);
+                            drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) - 20, "And:", 247, 255, 165, 3);
                         }
                         rd.setColor(new Color(236, 226, 202));
                         float f = (float) Math.random();
                         if (f < 0.69999999999999996D) {
-                            rd.drawRect(160, 150, 349, 126);
+                            rd.drawRect(Utility.centeredWidthX(349), Utility.centeredHeightY(carUnlockedBoxHeight), 349,
+                                    126);
                         } else {
-                            rd.fillRect(160, 150, 350, 127);
+                            rd.fillRect(Utility.centeredWidthX(350), Utility.centeredHeightY(carUnlockedBoxHeight), 350,
+                                    127);
                         }
                         rd.setColor(new Color(255, 209, 89));
-                        rd.fillRect(161, 151, 348, 4);
-                        rd.fillRect(161, 151, 4, 125);
-                        rd.fillRect(161, 272, 348, 4);
-                        rd.fillRect(505, 151, 4, 125);
+                        rd.fillRect(Utility.centeredWidthX(348), Utility.centeredHeightY(carUnlockedBoxHeight), 348, 4);
+                        rd.fillRect(Utility.centeredWidthX(348), Utility.centeredHeightY(carUnlockedBoxHeight), 4, 125);
+                        rd.fillRect(Utility.centeredWidthX(348),
+                                Utility.centeredHeightY(carUnlockedBoxHeight) + carUnlockedBoxHeight, 348, 4);
+                        rd.fillRect(Utility.centeredWidthX(348) + 345, Utility.centeredHeightY(carUnlockedBoxHeight), 4,
+                                125);
                         aconto[byte0].y = i;
                         Medium.crs = true;
-                        Medium.x = -335;
-                        Medium.y = 0;
+                        Medium.x = -(GameFacts.screenWidth / 2);
+                        Medium.y = -130;
                         Medium.z = -50;
                         Medium.xz = 0;
                         Medium.zy = 0;
@@ -3112,7 +3122,10 @@ class xtGraphics extends Panel implements Runnable {
                             rd.setColor(new Color(236, 226, 202));
                             int j = 0;
                             do {
-                                rd.drawLine(165, 155 + 4 * j, 504, 155 + 4 * j);
+                                rd.drawLine(Utility.centeredWidthX(348),
+                                        Utility.centeredHeightY(carUnlockedBoxHeight) + 4 * 2 + 4 * j,
+                                        Utility.centeredWidthX(348) + 348,
+                                        Utility.centeredHeightY(carUnlockedBoxHeight) + 4 * 2 + 4 * j);
                             } while (++j < 30);
                         }
                         String s = "";
@@ -3120,15 +3133,18 @@ class xtGraphics extends Panel implements Runnable {
                             s = " ";
                         }
                         if (aflk) {
-                            drawcs(300, "" + names[byte0] + "" + s + " has been unlocked!", 176, 196, 0, 3);
+                            drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) + carUnlockedBoxHeight + 20,
+                                    "" + names[byte0] + "" + s + " has been unlocked!", 176, 196, 0, 3);
                         } else {
-                            drawcs(300, "" + names[byte0] + "" + s + " has been unlocked!", 247, 255, 165, 3);
+                            drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) + carUnlockedBoxHeight + 20,
+                                    "" + names[byte0] + "" + s + " has been unlocked!", 247, 255, 165, 3);
                         }
                         pin = 180;
                     }
                     rd.setFont(new Font("SansSerif", 1, 11));
                     FontHandler.fMetrics = rd.getFontMetrics();
-                    drawcs(140 + pin, "GAME SAVED", 230, 167, 0, 3);
+                    drawcs(Utility.centeredHeightY(carUnlockedBoxHeight) + carUnlockedBoxHeight + 40,
+                            "GAME SAVED", 230, 167, 0, 3);
                     if (pin == 60) {
                         pin = 30;
                     } else {
@@ -3187,17 +3203,17 @@ class xtGraphics extends Panel implements Runnable {
                 aflk = !aflk;
             } else {
                 pin = 30;
-                rd.drawImage(congrd, 200, 87, null);
+                rd.drawImage(congrd, Utility.centeredImageX(congrd), 87, null);
                 drawcs(137, "Stage " + checkpoints.stage + " Completed!", 170, 170, 170, 3);
                 drawcs(154, "" + checkpoints.name + "", 128, 128, 128, 3);
             }
         } else {
             pin = 30;
-            rd.drawImage(gameov, 250, 117, null);
+            rd.drawImage(gameov, Utility.centeredImageX(gameov), 117, null);
             drawcs(167, "Failed to Complete Stage " + checkpoints.stage + "!", 170, 170, 170, 3);
             drawcs(184, "" + checkpoints.name + "", 128, 128, 128, 3);
         }
-        rd.drawImage(contin[pcontin], 290, 350 - pin, null);
+        rd.drawImage(contin[pcontin], Utility.centeredImageX(contin[pcontin]), post_game_continue_button_y, null);
         if (control.enter || control.handb) {
             if (loadedt) {
                 strack.setPaused(true);
@@ -5060,7 +5076,7 @@ class xtGraphics extends Panel implements Runnable {
         if (fase == Phase.POSTGAME) {
             lxm = i;
             lym = j;
-            if (k == 1 && over(contin[0], i, j, 290, 350 - pin)) {
+            if (k == 1 && over(contin[0], i, j, Utility.centeredImageX(contin[0]), post_game_continue_button_y)) {
                 pcontin = 1;
             }
             if (k == 2 && pcontin == 1) {
