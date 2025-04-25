@@ -183,6 +183,17 @@ public class Utility {
     }
 
     /**
+     * Gets the Y coordinate an image should be loaded at in order for it to be
+     * centered.
+     * 
+     * @param image The image
+     * @return The Y coordinate
+     */
+    public static int centeredImageY(Image image) {
+        return (GameFacts.screenWidth / 2) - (image.getHeight(null) / 2);
+    }
+
+    /**
      * Gets the X coordinate an arbitary width component should be loaded at in
      * order for it to be centered.
      * 
