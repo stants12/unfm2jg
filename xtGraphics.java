@@ -5265,7 +5265,7 @@ class xtGraphics extends Panel implements Runnable {
         }
         if (fase == Phase.INSTRUCTIONS) {
             if (flipo >= 1 && flipo <= 13) {
-                if (k == 1 && over(next[0], i, j, 600, 370)) {
+                if (k == 1 && over(next[0], i, j, instructions_next_button_x, instructions_next_back_button_y)) {
                     pnext = 1;
                 }
                 if (k == 2 && pnext == 1) {
@@ -5274,7 +5274,7 @@ class xtGraphics extends Panel implements Runnable {
                 }
             }
             if (flipo >= 3 && flipo <= 15) {
-                if (k == 1 && over(back[0], i, j, 10, 370)) {
+                if (k == 1 && over(back[0], i, j, instructions_back_button_x, instructions_next_back_button_y)) {
                     pback = 1;
                 }
                 if (k == 2 && pback == 1) {
@@ -5283,7 +5283,7 @@ class xtGraphics extends Panel implements Runnable {
                 }
             }
             if (flipo == 15) {
-                if (k == 1 && over(contin[0], i, j, GameFacts.screenHeight, 370)) {
+                if (k == 1 && over(contin[0], i, j, instructions_continue_button_x, instructions_next_back_button_y)) {
                     pcontin = 1;
                 }
                 if (k == 2 && pcontin == 1) {
