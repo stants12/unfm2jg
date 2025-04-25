@@ -294,8 +294,8 @@ public class GameSparker extends Applet implements Runnable {
             this.shaka -= 5;
         }
 
-        this.apx = (int) ((float) (this.getWidth() / 2) - 640.0F);
-        this.apy = (int) ((float) (this.getHeight() / 2) - 360.0F);
+        this.apx = (int) ((float) (this.getWidth() / 2) - GameFacts.screenWidth/2);
+        this.apy = (int) ((float) (this.getHeight() / 2) - GameFacts.screenHeight/2);
         graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2d.drawImage(this.offImage, this.apx + i, this.apy + i_97_, this);
         this.cropit(graphics2d, i, i_97_);
@@ -971,9 +971,10 @@ public class GameSparker extends Applet implements Runnable {
                 }
             }
             if (xtgraphics.fase == Phase.AWAITLOADDISMISSAL)
-                if (i2 < 71 && splashScreenState) {
-                    xtgraphics.rad(i2, 1);
-                    catchlink(0);
+                if (i2 < 100 && splashScreenState) {
+                    xtgraphics.sm.play("powerup");
+                    xtgraphics.rad(i2);
+                    catchlink(0, xtgraphics);
                     if (mouses == 2)
                         mouses = 0;
                     if (mouses == 1)
@@ -1003,7 +1004,7 @@ public class GameSparker extends Applet implements Runnable {
                 }
                 xtgraphics.ctachm(xm, ym, mouses, u[0]);
                 if (xtgraphics.flipo <= 100)
-                    catchlink(0);
+                    catchlink(0, xtgraphics);
                 if (mouses == 2)
                     mouses = 0;
                 if (mouses == 1)
@@ -1050,7 +1051,7 @@ public class GameSparker extends Applet implements Runnable {
                 xtgraphics.finish(checkpoints, aconto, u[0]);
                 xtgraphics.ctachm(xm, ym, mouses, u[0]);
                 if (checkpoints.stage == GameFacts.numberOfStages && xtgraphics.winner)
-                    catchlink(1);
+                    catchlink(1, xtgraphics);
                 if (mouses == 2)
                     mouses = 0;
                 if (mouses == 1)
@@ -1868,11 +1869,13 @@ public class GameSparker extends Applet implements Runnable {
         return string;
     }
 
-    private void catchlink(int i) {
+    private void catchlink(int i, xtGraphics xtg) {
         if (!lostfcs) {
             if (i == 0)
                 if (xm > 0 && xm < GameFacts.screenWidth && ym > 110 && ym < 169
-                        || xm > 210 && xm < 460 && ym > 240 && ym < 259) {
+                        || xm > Utility.centeredImageX(xtg.rpro)
+                                && xm < Utility.centeredImageX(xtg.rpro) + xtg.rpro.getWidth(null) && ym > 240
+                                && ym < 259) {
                     setCursor(new Cursor(12));
                     if (mouses == 2)
                         openurl("http://www.radicalplay.com/");
