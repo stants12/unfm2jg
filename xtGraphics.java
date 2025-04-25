@@ -673,7 +673,7 @@ class xtGraphics extends Panel implements Runnable {
         int i = 0;
         int pgate_gap = 30;
         int pgate_amt = 9;
-        int pgate_start = Utility.centeredWidthX((pgate_amt-1) * pgate_gap);
+        int pgate_start = Utility.centeredWidthX((pgate_amt - 1) * pgate_gap);
         do {
             rd.drawImage(pgate, pgate_start + i * pgate_gap, 190, null);
         } while (++i < pgate_amt);
@@ -1133,9 +1133,9 @@ class xtGraphics extends Panel implements Runnable {
         int ai1[] = new int[7];
         int ai2[] = new int[7];
         /**
-         * Base X position 
+         * Base X position
          */
-        int c = GameFacts.screenWidth/2;
+        int c = GameFacts.screenWidth / 2;
         byte byte0 = -90;
         /**
          * Base Y position
@@ -2403,9 +2403,11 @@ class xtGraphics extends Panel implements Runnable {
             if (checkpoints.wasted == GameFacts.numberOfPlayers - 1 && practicemode == 0) {
                 if (Medium.flex != 2) {
                     rd.setColor(new Color(Medium.csky[0], Medium.csky[1], Medium.csky[2]));
-                    rd.fillRect(Utility.centeredImageX(youwastedem), 70, youwastedem.getWidth(ob), youwastedem.getHeight(ob));
+                    rd.fillRect(Utility.centeredImageX(youwastedem), 70, youwastedem.getWidth(ob),
+                            youwastedem.getHeight(ob));
                     rd.setColor(new Color(Medium.cfade[0], Medium.cfade[1], Medium.cfade[2]));
-                    rd.drawRect(Utility.centeredImageX(youwastedem), 70, youwastedem.getWidth(ob), youwastedem.getHeight(ob));
+                    rd.drawRect(Utility.centeredImageX(youwastedem), 70, youwastedem.getWidth(ob),
+                            youwastedem.getHeight(ob));
                 }
                 rd.drawImage(youwastedem, Utility.centeredImageX(youwastedem), 70, null);
                 if (aflk) {
@@ -2423,9 +2425,11 @@ class xtGraphics extends Panel implements Runnable {
             if (!holdit && madness[0].dest && cntwis == 8) {
                 if (Medium.flex != 2) {
                     rd.setColor(new Color(Medium.csky[0], Medium.csky[1], Medium.csky[2]));
-                    rd.fillRect(Utility.centeredImageX(yourwasted), 70, yourwasted.getWidth(ob), yourwasted.getHeight(ob));
+                    rd.fillRect(Utility.centeredImageX(yourwasted), 70, yourwasted.getWidth(ob),
+                            yourwasted.getHeight(ob));
                     rd.setColor(new Color(Medium.cfade[0], Medium.cfade[1], Medium.cfade[2]));
-                    rd.drawRect(Utility.centeredImageX(yourwasted), 70, yourwasted.getWidth(ob), yourwasted.getHeight(ob));
+                    rd.drawRect(Utility.centeredImageX(yourwasted), 70, yourwasted.getWidth(ob),
+                            yourwasted.getHeight(ob));
                 }
                 rd.drawImage(yourwasted, Utility.centeredImageX(yourwasted), 70, null);
                 drawcs(350, "Press  [ Enter ]  to continue", 0, 0, 0, 0);
@@ -2439,11 +2443,13 @@ class xtGraphics extends Panel implements Runnable {
                         if (i == 0) {
                             if (Medium.flex != 2) {
                                 rd.setColor(new Color(Medium.csky[0], Medium.csky[1], Medium.csky[2]));
-                                rd.fillRect(268, 70, youwon.getWidth(ob), youwon.getHeight(ob));
+                                rd.fillRect(Utility.centeredImageX(youwon), 70, youwon.getWidth(ob),
+                                        youwon.getHeight(ob));
                                 rd.setColor(new Color(Medium.cfade[0], Medium.cfade[1], Medium.cfade[2]));
-                                rd.drawRect(268, 70, youwon.getWidth(ob), youwon.getHeight(ob));
+                                rd.drawRect(Utility.centeredImageX(youwon), 70, youwon.getWidth(ob),
+                                        youwon.getHeight(ob));
                             }
-                            rd.drawImage(youwon, 268, 70, null);
+                            rd.drawImage(youwon, Utility.centeredImageX(youwon), 70, null);
                             if (aflk) {
                                 drawcs(120, "You finished first, nice job!", 0, 0, 0, 0);
                                 aflk = false;
@@ -2455,9 +2461,11 @@ class xtGraphics extends Panel implements Runnable {
                         } else {
                             if (Medium.flex != 2) {
                                 rd.setColor(new Color(Medium.csky[0], Medium.csky[1], Medium.csky[2]));
-                                rd.fillRect(Utility.centeredImageX(youlost), 70, youlost.getWidth(ob), youlost.getHeight(ob));
+                                rd.fillRect(Utility.centeredImageX(youlost), 70, youlost.getWidth(ob),
+                                        youlost.getHeight(ob));
                                 rd.setColor(new Color(Medium.cfade[0], Medium.cfade[1], Medium.cfade[2]));
-                                rd.drawRect(Utility.centeredImageX(youlost), 70, youlost.getWidth(ob), youlost.getHeight(ob));
+                                rd.drawRect(Utility.centeredImageX(youlost), 70, youlost.getWidth(ob),
+                                        youlost.getHeight(ob));
                             }
                             rd.drawImage(youlost, Utility.centeredImageX(youlost), 70, null);
                             if (aflk) {
@@ -2652,7 +2660,7 @@ class xtGraphics extends Panel implements Runnable {
                     rd.setFont(new Font("SansSerif", 1, 11));
                     FontHandler.fMetrics = rd.getFontMetrics();
                     drawstat(madness[spectate].stat.maxmag, madness[spectate].hitmag, madness[spectate].newcar,
-                            madness[spectate].power);
+                            madness[spectate].power, bar_x);
 
                     if (GameSparker.DEBUG) {
                         if (debugmode) {
@@ -3564,13 +3572,18 @@ class xtGraphics extends Panel implements Runnable {
         sortcars(i);
     }
 
-    private void drawstat(int i, int j, boolean flag, float f) {
+    /**
+     * x_origin defines the relative position horizontally at which to draw the bars
+     */
+    private void drawstat(int i, int j, boolean flag, float f, int x_origin) {
         int ai[] = new int[4];
         int ai1[] = new int[4];
+        int bar_x_origin = x_origin + 62;
+
         if (flag) {
-            ai[0] = 533;
+            ai[0] = bar_x_origin;
             ai1[0] = 11;
-            ai[1] = 533;
+            ai[1] = bar_x_origin;
             ai1[1] = 19;
             ai[2] = 630;
             ai1[2] = 19;
@@ -3583,13 +3596,13 @@ class xtGraphics extends Panel implements Runnable {
             j = i;
         }
         int k = (int) (98F * ((float) j / (float) i));
-        ai[0] = 532;
+        ai[0] = bar_x_origin;
         ai1[0] = 11;
-        ai[1] = 532;
+        ai[1] = bar_x_origin;
         ai1[1] = 20;
-        ai[2] = 532 + k;
+        ai[2] = bar_x_origin + k;
         ai1[2] = 20;
-        ai[3] = 532 + k;
+        ai[3] = bar_x_origin + k;
         ai1[3] = 11;
         int l = 244;
         int i1 = 244;
@@ -3634,13 +3647,13 @@ class xtGraphics extends Panel implements Runnable {
         }
         rd.setColor(new Color(l, i1, j1));
         rd.fillPolygon(ai, ai1, 4);
-        ai[0] = 532;
+        ai[0] = bar_x_origin;
         ai1[0] = 31;
-        ai[1] = 532;
+        ai[1] = bar_x_origin;
         ai1[1] = 40;
-        ai[2] = (int) (532F + f);
+        ai[2] = (int) (bar_x_origin + f);
         ai1[2] = 40;
-        ai[3] = (int) (532F + f);
+        ai[3] = (int) (bar_x_origin + f);
         ai1[3] = 31;
         l = 128;
         if (f == 98F) {
@@ -3677,9 +3690,9 @@ class xtGraphics extends Panel implements Runnable {
         rd.setColor(new Color(l, i1, j1));
         rd.fillPolygon(ai, ai1, 4);
         if (Medium.flex == 2 && f != 98F) {
-            ai[0] = (int) (532F + f);
+            ai[0] = (int) (bar_x_origin + f);
             ai1[0] = 31;
-            ai[1] = (int) (532F + f);
+            ai[1] = (int) (bar_x_origin + f);
             ai1[1] = 39;
             ai[2] = 630;
             ai1[2] = 39;
@@ -4533,7 +4546,8 @@ class xtGraphics extends Panel implements Runnable {
             pin = 0;
         }
 
-        System.out.println(radpx + ", " + Math.abs(radpx - Utility.centeredImageX(radicalplay)) + ", " + GameFacts.screenWidth/20);
+        System.out.println(radpx + ", " + Math.abs(radpx - Utility.centeredImageX(radicalplay)) + ", "
+                + GameFacts.screenWidth / 20);
 
         trackbg(false);
         rd.setColor(new Color(0, 0, 0));
@@ -4546,13 +4560,13 @@ class xtGraphics extends Panel implements Runnable {
         }
 
         if (pin == 1) {
-            radpx += GameFacts.screenWidth/20;
+            radpx += GameFacts.screenWidth / 20;
             if (radpx > GameFacts.screenWidth) {
                 radpx = -453;
             }
         }
-        
-        if (Math.abs(radpx - Utility.centeredImageX(radicalplay)) < GameFacts.screenWidth/20) {
+
+        if (Math.abs(radpx - Utility.centeredImageX(radicalplay)) < GameFacts.screenWidth / 20) {
             radpx = Utility.centeredImageX(radicalplay);
             pin = 0;
         }
