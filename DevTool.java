@@ -217,8 +217,7 @@ public class DevTool {
                 if (args.length == 1) {
                     try {
                         int n = Integer.parseInt(args[0]);
-                        // TODO
-                        //xt.fase = n;
+                        xt.fase = Phase.valueOfValue(n);
                         print("Set xtGraphics.fase to " + n);
                     } catch (NumberFormatException e) {
                         print("Invalid argument.");

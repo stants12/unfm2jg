@@ -971,8 +971,8 @@ public class GameSparker extends Applet implements Runnable {
                 }
             }
             if (xtgraphics.fase == Phase.AWAITLOADDISMISSAL)
-                if (i2 < 71 && splashScreenState) {
-                    xtgraphics.rad(i2, 1);
+                if (i2 < 100 && splashScreenState) {
+                    xtgraphics.rad(i2);
                     catchlink(0);
                     if (mouses == 2)
                         mouses = 0;

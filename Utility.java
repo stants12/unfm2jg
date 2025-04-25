@@ -1,6 +1,8 @@
 import fallk.logmaster.HLogger;
 
 import javax.imageio.ImageIO;
+
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -165,6 +167,26 @@ public class Utility {
 
     public static int py(int i, int j, int k, int l) {
         return (i - j) * (i - j) + (k - l) * (k - l);
+    }
+
+    /**
+     * Gets the X coordinate an image should be loaded at in order for it to be centered.
+     * @param image The image
+     * @return The X coordinate
+     */
+    public static int centeredImageX(Image image)
+    {
+        return (GameFacts.screenWidth/2)-(image.getWidth(null)/2);
+    }
+
+    /**
+     * Gets the X coordinate an arbitary width component should be loaded at in order for it to be centered.
+     * @param width The width of the component
+     * @return The X coordinate
+     */
+    public static int centeredWidthX(int width)
+    {
+        return (GameFacts.screenWidth/2)-(width/2);
     }
 
     /*

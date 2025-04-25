@@ -11,3 +11,5 @@
 /sun*
 .project
 .classpath
+/data/music/temp*
+*.log
