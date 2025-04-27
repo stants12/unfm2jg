@@ -495,6 +495,7 @@ public class GameSparker extends Applet implements Runnable {
         checkpoints.wasted = 0;
         checkpoints.catchfin = 0;
         Medium.lightson = false;
+        Medium.detailtype = 2;
         Medium.ground = 250;
         view = 0;
 
@@ -564,50 +565,44 @@ public class GameSparker extends Applet implements Runnable {
                 if (line.startsWith("set")) {
                     int k1 = Utility.getint("set", line, 0);
                     k1 += 6;
-                    aconto[nob] = new ContO(aconto1[k1], Utility.getint("set", line, 1),
-                            Medium.ground - aconto1[k1].grat,
-                            Utility.getint("set", line, 2), Utility.getint("set", line, 3));
+                
+                    // compute default Y (ground-height)
+                    int yVal = Medium.ground - aconto1[k1].grat;
+                
+                    // if there *is* a 5th comma-separated value, use that instead
+                    // (splitting only the part inside the parentheses)
+                    String inside = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')'));
+                    String[] parts = inside.split("\\s*,\\s*");
+                    if (parts.length > 4) {
+                        yVal = Utility.getint("set", line, 4);
+                    }
+                
+                    // now create the object, exactly as before but with our yVal
+                    aconto[nob] = new ContO(
+                        aconto1[k1],
+                        Utility.getint("set", line, 1),
+                        yVal,
+                        Utility.getint("set", line, 2),
+                        Utility.getint("set", line, 3)
+                    );
+                
                     if (line.contains(")p")) {
                         checkpoints.x[checkpoints.n] = Utility.getint("set", line, 1);
                         checkpoints.z[checkpoints.n] = Utility.getint("set", line, 2);
-                        checkpoints.y[checkpoints.n] = 0;
+                
+                        // same trick for the checkpoint Y (default=0)
+                        if (parts.length > 4) {
+                            checkpoints.y[checkpoints.n] = Utility.getint("set", line, 4);
+                        } else {
+                            checkpoints.y[checkpoints.n] = 0;
+                        }
+                
                         checkpoints.typ[checkpoints.n] = 0;
-                        if (line.contains(")pt"))
-                            checkpoints.typ[checkpoints.n] = -1;
-                        if (line.contains(")pr"))
-                            checkpoints.typ[checkpoints.n] = -2;
-                        if (line.contains(")po"))
-                            checkpoints.typ[checkpoints.n] = -3;
-                        if (line.contains(")ph"))
-                            checkpoints.typ[checkpoints.n] = -4;
-                        checkpoints.n++;
-                        notb = nob + 1;
-                    }
-                    nob++;
-                }
-                if (line.startsWith("fltset")) {
-                    int i2 = Utility.getint("fltset", line, 0);
-                    i2 += 6;
-                    aconto[nob] = new ContO(aconto1[i2], Utility.getint("fltset", line, 1),
-                            Utility.getint("fltset", line, 3),
-                            Utility.getint("fltset", line, 2), Utility.getint("fltset", line, 4));
-                    if (line.contains(")p")) {
-                        checkpoints.x[checkpoints.n] = Utility.getint("fltset", line, 1);
-                        checkpoints.z[checkpoints.n] = Utility.getint("fltset", line, 2);
-                        checkpoints.y[checkpoints.n] = Utility.getint("fltset", line, 3);
-                        checkpoints.typ[checkpoints.n] = 0;
-                        if (line.contains(")pt")) {
-                            checkpoints.typ[checkpoints.n] = -1;
-                        }
-                        if (line.contains(")pr")) {
-                            checkpoints.typ[checkpoints.n] = -2;
-                        }
-                        if (line.contains(")po")) {
-                            checkpoints.typ[checkpoints.n] = -3;
-                        }
-                        if (line.contains(")ph")) {
-                            checkpoints.typ[checkpoints.n] = -4;
-                        }
+                        if (line.contains(")pt")) checkpoints.typ[checkpoints.n] = -1;
+                        if (line.contains(")pr")) checkpoints.typ[checkpoints.n] = -2;
+                        if (line.contains(")po")) checkpoints.typ[checkpoints.n] = -3;
+                        if (line.contains(")ph")) checkpoints.typ[checkpoints.n] = -4;
+                
                         checkpoints.n++;
                         notb = nob + 1;
                     }
@@ -616,22 +611,42 @@ public class GameSparker extends Applet implements Runnable {
                 if (line.startsWith("ds:set")) {
                     String modelname = Utility.getstring("ds:set", line, 0);
                     int id = getModel(modelname);
-                    aconto[nob] = new ContO(aconto1[id], Utility.getint("ds:set", line, 1),
-                            Medium.ground - aconto1[id].grat,
-                            Utility.getint("ds:set", line, 2), Utility.getint("ds:set", line, 3));
+                    int yVal = Medium.ground - aconto1[id].grat;
+                
+                    // if there *is* a 5th comma-separated value, use that instead
+                    // (splitting only the part inside the parentheses)
+                    String inside = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')'));
+                    String[] parts = inside.split("\\s*,\\s*");
+                    if (parts.length > 4) {
+                        yVal = Utility.getint("ds:set", line, 4);
+                    }
+                
+                    // now create the object, exactly as before but with our yVal
+                    aconto[nob] = new ContO(
+                        aconto1[id],
+                        Utility.getint("ds:set", line, 1),
+                        yVal,
+                        Utility.getint("ds:set", line, 2),
+                        Utility.getint("ds:set", line, 3)
+                    );
+                
                     if (line.contains(")p")) {
                         checkpoints.x[checkpoints.n] = Utility.getint("ds:set", line, 1);
                         checkpoints.z[checkpoints.n] = Utility.getint("ds:set", line, 2);
-                        checkpoints.y[checkpoints.n] = 0;
+                
+                        // same trick for the checkpoint Y (default=0)
+                        if (parts.length > 4) {
+                            checkpoints.y[checkpoints.n] = Utility.getint("ds:set", line, 4);
+                        } else {
+                            checkpoints.y[checkpoints.n] = 0;
+                        }
+                
                         checkpoints.typ[checkpoints.n] = 0;
-                        if (line.contains(")pt"))
-                            checkpoints.typ[checkpoints.n] = -1;
-                        if (line.contains(")pr"))
-                            checkpoints.typ[checkpoints.n] = -2;
-                        if (line.contains(")po"))
-                            checkpoints.typ[checkpoints.n] = -3;
-                        if (line.contains(")ph"))
-                            checkpoints.typ[checkpoints.n] = -4;
+                        if (line.contains(")pt")) checkpoints.typ[checkpoints.n] = -1;
+                        if (line.contains(")pr")) checkpoints.typ[checkpoints.n] = -2;
+                        if (line.contains(")po")) checkpoints.typ[checkpoints.n] = -3;
+                        if (line.contains(")ph")) checkpoints.typ[checkpoints.n] = -4;
+                
                         checkpoints.n++;
                         notb = nob + 1;
                     }
@@ -640,36 +655,39 @@ public class GameSparker extends Applet implements Runnable {
                 if (line.startsWith("chk")) {
                     int l1 = Utility.getint("chk", line, 0);
                     l1 += 6;
-                    aconto[nob] = new ContO(aconto1[l1], Utility.getint("chk", line, 1),
-                            Medium.ground - aconto1[l1].grat,
-                            Utility.getint("chk", line, 2), Utility.getint("chk", line, 3));
+                
+                    // compute default Y (ground-height)
+                    int yVal = Medium.ground - aconto1[l1].grat;
+                
+                    // grab the args between '(' and ')', split on commas
+                    String inside = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')'));
+                    String[] parts = inside.split("\\s*,\\s*");
+                    // if there's a 5th element, use it as Y instead
+                    if (parts.length > 4) {
+                        yVal = Utility.getint("chk", line, 4);
+                    }
+                
+                    // create your object exactly as before, but with our yVal
+                    aconto[nob] = new ContO(
+                        aconto1[l1],
+                        Utility.getint("chk", line, 1),
+                        yVal,
+                        Utility.getint("chk", line, 2),
+                        Utility.getint("chk", line, 3)
+                    );
+                
+                    // now the checkpoint data:
                     checkpoints.x[checkpoints.n] = Utility.getint("chk", line, 1);
                     checkpoints.z[checkpoints.n] = Utility.getint("chk", line, 2);
-                    checkpoints.y[checkpoints.n] = Medium.ground - aconto1[l1].grat;
+                    // use the same yVal
+                    checkpoints.y[checkpoints.n] = yVal;
+                
+                    // type based on rotation-arg logic unchanged
                     if (Utility.getint("chk", line, 3) == 0)
                         checkpoints.typ[checkpoints.n] = 1;
                     else
                         checkpoints.typ[checkpoints.n] = 2;
-                    checkpoints.pcs = checkpoints.n;
-                    checkpoints.n++;
-                    aconto[nob].checkpoint = checkpoints.nsp + 1;
-                    checkpoints.nsp++;
-                    nob++;
-                    notb = nob;
-                }
-                if (line.startsWith("fltchk")) {
-                    int l1 = Utility.getint("fltchk", line, 0);
-                    l1 += 6;
-                    aconto[nob] = new ContO(aconto1[l1], Utility.getint("fltchk", line, 1),
-                            Utility.getint("fltchk", line, 3),
-                            Utility.getint("fltchk", line, 2), Utility.getint("fltchk", line, 4));
-                    checkpoints.x[checkpoints.n] = Utility.getint("fltchk", line, 1);
-                    checkpoints.z[checkpoints.n] = Utility.getint("fltchk", line, 2);
-                    checkpoints.y[checkpoints.n] = Utility.getint("fltchk", line, 3);
-                    if (Utility.getint("fltchk", line, 4) == 0)
-                        checkpoints.typ[checkpoints.n] = 1;
-                    else
-                        checkpoints.typ[checkpoints.n] = 2;
+                
                     checkpoints.pcs = checkpoints.n;
                     checkpoints.n++;
                     aconto[nob].checkpoint = checkpoints.nsp + 1;
@@ -795,6 +813,9 @@ public class GameSparker extends Applet implements Runnable {
                     trackers.xy[trackers.nt] = 0;
                     trackers.dam[trackers.nt] = 1;
                     trackers.nt++;
+                }
+                if (line.startsWith("detail")) {
+                    Medium.detailtype = Utility.getint("detail", line, 0);
                 }
             }
             Medium.newpolys(l_wall, r_wall - l_wall, b_wall, t_wall - b_wall, trackers, notb);

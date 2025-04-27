@@ -217,7 +217,7 @@ class xtGraphics extends Panel implements Runnable {
     private String asay;
     private int auscnt;
     private boolean aflk;
-    static final int[] sndsize = { // need to add more if you want more stages :D - Addict
+    static final int[] sndsize = { // unused
             106, 76, 56, 116, 92, 208, 70, 80, 152, 102, 27, 65, 52, 30, 151, 129, 70, 0
     };
     private final Image hello;
