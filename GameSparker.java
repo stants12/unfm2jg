@@ -1061,7 +1061,7 @@ public class GameSparker extends Applet implements Runnable {
             if (xtgraphics.fase == Phase.SAVEGAME) { // save the fucking game properly
 
                 if (checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner
-                        && xtgraphics.unlocked != GameFacts.numberOfStages)
+                        && xtgraphics.unlocked != GameFacts.numberOfStages + 1)
                     savecookie("unlocked", "" + xtgraphics.unlocked);
                 savecookie("gameprfact", "" + (int) f);
                 savecookie("usercar", "" + xtgraphics.sc[0]);
