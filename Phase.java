@@ -7,6 +7,13 @@
  * @author Jacherr
  */
 public enum Phase {
+    //     /**
+    //  * drm test
+    //  */
+    // DRM0(9002),
+    // DRMSCREEN(9002),
+    // DRMFAIL(9003),
+    // DRMSUCC(9004),
     /**
      * -8000 (saves the game and switches to 10 (used after beating a stage))
     */ 

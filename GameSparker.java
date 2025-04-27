@@ -4,10 +4,13 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
+import java.net.Socket;
 import java.net.URI;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -61,7 +64,7 @@ public class GameSparker extends Applet implements Runnable {
     /**
      * false to disable splash
      */
-    private static final boolean splashScreenState = false;
+    private static final boolean splashScreenState = true;
 
     private static final String stageDir = "data/stages/";
 
@@ -856,6 +859,7 @@ public class GameSparker extends Applet implements Runnable {
             Medium.fallen = 0;
             Medium.nrnd = 0;
             Medium.trk = true;
+            //Medium.detailtype = 0;
             xtgraphics.fase = Phase.STAGESELECT;
             mouses = 0;
         }
@@ -987,13 +991,13 @@ public class GameSparker extends Applet implements Runnable {
                 } else {
                     i2 = 0;
                     xtgraphics.fase = Phase.AWAITLOADDISMISSAL;
+                    xtgraphics.sm.play("powerup");
                     mouses = 0;
                     lostfcs = false;
                 }
             }
             if (xtgraphics.fase == Phase.AWAITLOADDISMISSAL)
                 if (i2 < 100 && splashScreenState) {
-                    xtgraphics.sm.play("powerup");
                     xtgraphics.rad(i2);
                     catchlink(0, xtgraphics);
                     if (mouses == 2)
@@ -1031,6 +1035,66 @@ public class GameSparker extends Applet implements Runnable {
                 if (mouses == 1)
                     mouses = 2;
             }
+            // if (xtgraphics.fase == Phase.DRM0) {
+            //     xtgraphics.fase = Phase.DRMSCREEN;
+            //     String regex = "^([a-zA-Z0-9.-]+):(\\d{1,5})$";
+            //     Pattern pattern = Pattern.compile(regex);
+            //     Matcher matcher = pattern.matcher(xtgraphics.serverip + ":" + xtgraphics.serverport);
+    
+            //     if (matcher.matches()) {
+            //         String host = matcher.group(1);
+            //         int port = Integer.parseInt(matcher.group(2));
+    
+            //         if (port >= 0 && port <= 65535) {
+            //             HLogger.info("Connecting to " + host + " on port " + port + "...");
+    
+            //             try {
+            //                 xtgraphics.socket = new Socket(host, port);
+            //                 HLogger.info("Connected to the server");
+    
+            //                 xtgraphics.serverresponse = new BufferedReader(new InputStreamReader(xtgraphics.socket.getInputStream()));
+
+            //                 PrintWriter out = new PrintWriter(xtgraphics.socket.getOutputStream(), true); // true = auto-flush
+            //                 String hwid = HWID.getHWID();
+            //                 String hashed = HWID.hashHWID(hwid);
+
+            //                 out.println(hashed);  // <- you send this
+
+
+            //                 xtgraphics.serverresponse = new BufferedReader(new InputStreamReader(xtgraphics.socket.getInputStream()));
+            //                 xtgraphics.serverMessage = xtgraphics.serverresponse.readLine();
+            //                 HLogger.info(xtgraphics.serverMessage);
+
+            //                 out.close();
+    
+            //             } catch (java.net.ConnectException e) {
+            //                 xtgraphics.serverMessage = e.getMessage();
+            //                 HLogger.info(e.getMessage());
+            //             } catch (IOException e) {
+            //                 HLogger.info("An error occurred:\n" + e.toString());
+            //             } finally {
+            //                 try {
+            //                     if (xtgraphics.serverresponse != null) xtgraphics.serverresponse.close();
+            //                     if (xtgraphics.socket != null) xtgraphics.socket.close();
+            //                 } catch (IOException e) {
+            //                     HLogger.info("An error occurred while closing connection:\n" + e.toString());
+            //                 }
+            //             }
+    
+            //         } else {
+            //             HLogger.info("Port must be between 0 and 65535.");
+            //         }
+            //     } else {
+            //         HLogger.info("Invalid host:port format.");
+            //     }
+            // }
+            // if (xtgraphics.fase == Phase.DRMSCREEN) {
+            //     repaint();
+            //     xtgraphics.drmcheck();
+            //     if (xtgraphics.serverMessage.equals("Authenticated")) {
+            //         xtgraphics.fase = Phase.LOADING;
+            //     }
+            // }
             if (xtgraphics.fase == Phase.MAINMENU) {
                 xtgraphics.maini(u[0], checkpoints, amadness, aconto, aconto1);
                 xtgraphics.ctachm(xm, ym, mouses, u[0]);

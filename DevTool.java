@@ -302,56 +302,50 @@ public class DevTool {
                 if (args.length == 1) {
                     String sub = args[0];
                     try {
-                        // Validate and parse IP and port
-                        String regex = "^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}):(\\d{1,5})$";
+                        // Allow localhost, domains, and IPs
+                        String regex = "^([a-zA-Z0-9.-]+):(\\d{1,5})$";
                         Pattern pattern = Pattern.compile(regex);
                         Matcher matcher = pattern.matcher(sub);
-
+            
                         if (matcher.matches()) {
-                            String ip = matcher.group(1);
+                            String host = matcher.group(1);
                             int port = Integer.parseInt(matcher.group(2));
-
-                            // Validate IP and port range
-                            if (isValidIP(ip) && port >= 0 && port <= 65535) {
-                                print("Connecting to " + ip + " on port " + port + "...");
-
+            
+                            if (port >= 0 && port <= 65535) {
+                                print("Connecting to " + host + " on port " + port + "...");
+            
                                 try {
-                                    
-                                    xt.socket = new Socket(ip, port);
+                                    xt.socket = new Socket(host, port);
                                     print("Connected to the server");
-
-                                    // Get the input stream to receive data from the server
-                                    xt.serverresponse = new BufferedReader(new InputStreamReader(xt.socket.getInputStream()));
-
-                                    // Read the message from the server
-                                    String message = xt.serverresponse.readLine();
+            
+                                    xt.serverResponse = new BufferedReader(new InputStreamReader(xt.socket.getInputStream()));
+                                    String message = xt.serverResponse.readLine();
                                     print("Server says: " + message);
-
+            
                                 } catch (java.net.ConnectException e) {
-                                    print(e.getMessage());
+                                    print("Connection refused: " + e.getMessage());
                                 } catch (IOException e) {
                                     print("An error occurred:\n" + e.toString());
                                 } finally {
-                                    // Close the streams and sockets
                                     try {
-                                        if (xt.serverresponse != null) xt.serverresponse.close();
+                                        if (xt.serverResponse != null) xt.serverResponse.close();
                                         if (xt.socket != null) xt.socket.close();
                                     } catch (IOException e) {
-                                        print("An error occurred:\n" + e.toString());
+                                        print("An error occurred while closing connection:\n" + e.toString());
                                     }
                                 }
-
+            
                             } else {
-                                print("Invalid IP address or port range.");
+                                print("Port must be between 0 and 65535.");
                             }
                         } else {
-                            print("Invalid IP:Port format.");
+                            print("Invalid host:port format.");
                         }
                     } catch (NumberFormatException e) {
                         print("Invalid port number.");
                     }
                 } else {
-                    print("Usage: connect <ip:port>");
+                    print("Usage: connect <host:port>");
                 }
                 break;
             case "clear":
@@ -378,20 +372,6 @@ public class DevTool {
                 print("Unknown command: " + commandName);
                 break;
         }
-    }
-
-    private boolean isValidIP(String ip) {
-        String[] parts = ip.split("\\.");
-        if (parts.length != 4) {
-            return false;
-        }
-        for (String part : parts) {
-            int num = Integer.parseInt(part);
-            if (num < 0 || num > 255) {
-                return false;
-            }
-        }
-        return true;
     }
     
     private void populateCommandDescriptions() {

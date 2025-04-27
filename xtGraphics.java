@@ -350,10 +350,14 @@ class xtGraphics extends Panel implements Runnable {
 
     public int nfmmode = 2;
 
-    public static String serverip = "127.0.0.1";
-    public static int serverport = 6900;
+    // server test
+    public String serverIP = "127.0.0.1";
+    public String authServerIP = "127.0.0.1";
+    public int serverPort = 6900;
+    public int authServerport = 6930;
     Socket socket = null;
-    BufferedReader serverresponse = null;
+    BufferedReader serverResponse = null;
+    public String serverMessage = "Connecting to authentication server...";
 
     /**
      * Filter images
@@ -763,6 +767,22 @@ class xtGraphics extends Panel implements Runnable {
         // }
     }
 
+    public void drmcheck() {        // this is very barebones and not sustainable
+        app.repaint();
+        trackbg(false);
+
+        // rd.drawImage(br, 0, 0, null);
+        rd.setFont(new Font("SansSerif", 1, 40));
+        FontHandler.fMetrics = rd.getFontMetrics();
+
+        drawcs(GameFacts.screenHeight/2, serverMessage, 255, 255, 255, 3);
+    }
+
+    public void drmchecksuccess() {
+        app.repaint();
+        fase = Phase.AWAITLOADDISMISSAL;
+    }
+
     public void menusettings(Control control) {
 
         app.repaint();
@@ -773,14 +793,8 @@ class xtGraphics extends Panel implements Runnable {
             app.setCursor(new Cursor(0));
         }
 
-        int i = 0;
-        do {
-            rd.drawImage(bgmain, 0, bgmy[i], null);
-            bgmy[i] -= 2;
-            if (bgmy[i] <= -GameFacts.screenHeight) {
-                bgmy[i] = GameFacts.screenHeight;
-            }
-        } while (++i < 2);
+        rd.setColor(new Color(100, 100, 100));
+        rd.fillRect(0, 0, GameFacts.screenWidth, GameFacts.screenHeight);
 
         rd.setFont(new Font("SansSerif", 1, 13));
         FontHandler.fMetrics = rd.getFontMetrics();
@@ -805,7 +819,7 @@ class xtGraphics extends Panel implements Runnable {
         if (opselect == 0) {
             rd.setFont(new Font("SansSerif", 1, 13));
             FontHandler.fMetrics = rd.getFontMetrics();
-            if (aflk) {
+            if (aflk) {     // this is aids
                 drawcs(20, "Number of Players: " + GameFacts.numberOfPlayers, 255, 0, 0, 3);
                 rd.setColor(new Color(200, 255, 0));
                 aflk = false;
@@ -4190,6 +4204,7 @@ class xtGraphics extends Panel implements Runnable {
             }
             if (opselect == 3) {
                 oldfase = Phase.MAINMENU;
+                opselect = 0;
                 fase = Phase.CUSTOMSETTINGS;
             }
             flipo = 0;
