@@ -1827,27 +1827,35 @@ public class GameSparker extends Applet implements Runnable {
             }
 
             // if (xtgraphics.devtriggered) {
-            if (xtgraphics.fase == Phase.INGAME) {
-                gameState = "In game\nStage " + checkpoints.stage + ": " + checkpoints.name +
-                        "\nPlayers: " + GameFacts.numberOfPlayers;
-                gameStateID = 0;
-            } else if (xtgraphics.fase == Phase.STAGESELECT) {
-                gameState = "Selecting a Stage";
-                gameStateID = 1;
-            } else if (xtgraphics.fase == Phase.CARSELECT) {
-                gameState = "Selecting a Car";
-                gameStateID = 7;
-            } else if (xtgraphics.fase == Phase.MAINMENU) {
-                gameState = "In main menu";
-                gameStateID = 10;
-            } else if (xtgraphics.fase == Phase.INSTRUCTIONS) {
-                gameState = "Reading game instructions";
-                gameStateID = 11;
-            } else {
-                gameState = "Unknown State";
-                gameStateID = -1738;
+
+            // this could be useful for discord rich presence
+            switch (xtgraphics.fase) {
+                case INGAME:
+                    gameState = "In game\nStage " + checkpoints.stage + ": " + checkpoints.name +
+                    "\nPlayers: " + GameFacts.numberOfPlayers;
+                    gameStateID = 0;
+                    break;
+                case STAGESELECT:
+                    gameState = "Selecting a Stage";
+                    gameStateID = 1;
+                    break;
+                case CARSELECT:
+                    gameState = "Selecting a Car";
+                    gameStateID = 7;
+                    break;
+                case MAINMENU:
+                    gameState = "In main menu";
+                    gameStateID = 10;
+                    break;
+                case INSTRUCTIONS:
+                    gameState = "Reading game instructions";
+                    gameStateID = 11;
+                    break;
+                default:
+                    gameState = "Unknown State";
+                    gameStateID = -1738;
+                    break;
             }
-            // }
 
             long l2 = Math.round(f1) - (l5 - l4);
             if (l2 < i)
