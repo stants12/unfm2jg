@@ -329,7 +329,6 @@ class xtGraphics extends Panel implements Runnable {
     private float blackn;
     private float blacknados;
 
-    public int antiCookieSpam;
 
     static int practicemode = 0;
 
@@ -349,6 +348,8 @@ class xtGraphics extends Panel implements Runnable {
     public int spectate = 0;
 
     public int nfmmode = 2;
+
+    private int car_select_delay = 3;   // this is the most optimal value, anything less is shit and causes tick sound to go nuts
 
     // server test
     public String serverIP = "127.0.0.1";
@@ -3682,7 +3683,6 @@ class xtGraphics extends Panel implements Runnable {
         winner = false;
         setnumber = false;
         wasted = 0;
-        antiCookieSpam = 0;
         int j = 0;
         do {
             dested[j] = 0;
@@ -3975,7 +3975,6 @@ class xtGraphics extends Panel implements Runnable {
         flangados = 0;
         blackn = 0.0F;
         blacknados = 0.0F;
-        antiCookieSpam = 0;
         app = applet;
         rd = graphics2d;
         MediaTracker mediatracker = new MediaTracker(app);
@@ -4914,6 +4913,8 @@ class xtGraphics extends Panel implements Runnable {
                 aconto[sc[0]].wzy += 45;
             }
 
+            car_select_delay = 0;
+
             if (sc[0] != 0) {
                 rd.drawImage(back[pback], car_select_back_button_x, car_select_next_back_button_y, null);
             }
@@ -5030,6 +5031,7 @@ class xtGraphics extends Panel implements Runnable {
             pback = 0;
             pnext = 0;
             gatey = 300;
+            car_select_delay--;
             if (flipo > 10) {
                 aconto[sc[0]].y -= 100;
                 if (nextc) {
@@ -5061,7 +5063,7 @@ class xtGraphics extends Panel implements Runnable {
         rd.setFont(new Font("SansSerif", 1, 11));
         FontHandler.fMetrics = rd.getFontMetrics();
         drawcs(GameFacts.screenHeight - 5, "You can also use Keyboard Arrows and Enter to navigate.", 82, 90, 0, 3);
-        if (control.right) {
+        if (control.right && car_select_delay == 0) {
             sm.play("tick");
             control.right = false;
             if (flatrstart > 1) {
@@ -5069,9 +5071,10 @@ class xtGraphics extends Panel implements Runnable {
             }
             nextc = true;
             flipo = 10;
+            car_select_delay = 3;
             // sc[0]++;
         }
-        if (control.left) {
+        if (control.left && car_select_delay == 0) {
             sm.play("tick");
             control.left = false;
             if (flatrstart > 1) {
@@ -5079,6 +5082,7 @@ class xtGraphics extends Panel implements Runnable {
             }
             nextc = false;
             flipo = 10;
+            car_select_delay = 3;
             // sc[0]--;
         }
         if (control.handb || control.enter) {
