@@ -12,6 +12,8 @@ nlaps(11)
 
 name(Rocket Arena)
 
+soundtrack(the_logic,zip)
+
 set(47,0,0,0)p
 set(54,700,567,180)
 set(54,700,-1675,180)

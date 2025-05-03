@@ -11,6 +11,8 @@ nlaps(4)
 
 name(Fair Ground)
 
+soundtrack(ROZ_Shuffle,zip)
+
 set(47,0,0,0)p
 set(10,0,5600,0)p
 set(10,0,11200,0)

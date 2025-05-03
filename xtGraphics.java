@@ -349,6 +349,9 @@ class xtGraphics extends Panel implements Runnable {
 
     public int nfmmode = 2;
 
+    public boolean arrowDisabled = false;
+    public boolean opstatusDisabled = false;
+
     private int car_select_delay = 3;   // this is the most optimal value, anything less is shit and causes tick sound to go nuts
 
     // server test
@@ -1899,6 +1902,15 @@ class xtGraphics extends Panel implements Runnable {
         boolean customMusic = false;
         String fileFormat = CheckPoints.trackformat;
 
+        
+        File mp3 = new File(path + ".mp3");
+        File ogg = new File(path + ".ogg");
+        File mid = new File(path + ".mid");
+        File wav = new File(path + ".wav");
+        File radq = new File(path + ".radq");
+        File zip = new File(path + ".zip");
+        File zipo = new File(path + ".zipo");
+
         // if (i < 1) {
         if (CheckPoints.customTrack) {
             customMusic = true;
@@ -1909,7 +1921,11 @@ class xtGraphics extends Panel implements Runnable {
                 HLogger.info(fileFormat);
                 try {
                     if (customMFile.exists()) {
-                        strack = TrackZipLoader.loadZip(path, false);
+                        if (CheckPoints.trackformat.equals("zip") || CheckPoints.trackformat.equals("zipo") || CheckPoints.trackformat.equals("radq")) {
+                            strack = TrackZipLoader.loadZip(path, false);
+                        } else {
+                            strack = TrackZipLoader.loadMusic(path);
+                        }
                     }
                 } catch (final IOException ex) {
                     System.out.println("Error loading custom music file: " + path);
@@ -1922,13 +1938,6 @@ class xtGraphics extends Panel implements Runnable {
         }
         // }
 
-        File mp3 = new File(path + ".mp3");
-        File ogg = new File(path + ".ogg");
-        File mid = new File(path + ".mid");
-        File wav = new File(path + ".wav");
-        File radq = new File(path + ".radq");
-        File zip = new File(path + ".zip");
-        File zipo = new File(path + ".zipo");
         try {
             if (radq.exists()) {
                 strack = TrackZipLoader.loadZip(path + ".radq", false);
@@ -2590,111 +2599,118 @@ class xtGraphics extends Panel implements Runnable {
                 } while (++i < GameFacts.numberOfPlayers);
             }
             if (flag) {
-                if (checkpoints.stage != 110 && arrace != control.arrace) {
-                    arrace = control.arrace;
-                    if (arrace) {
-                        wasay = true;
-                        say = " Arrow now pointing at  Cars  <";
-                        tcnt = -5;
-                    }
-                    if (!arrace) {
-                        wasay = false;
-                        say = " Arrow now pointing at  Track  <";
-                        tcnt = -5;
-                        cntan = 20;
+                if (!arrowDisabled) {
+                    if (checkpoints.stage != 110 && arrace != control.arrace) {
+                        arrace = control.arrace;
+                        if (arrace) {
+                            wasay = true;
+                            say = " Arrow now pointing at  Cars  <";
+                            tcnt = -5;
+                        }
+                        if (!arrace) {
+                            wasay = false;
+                            say = " Arrow now pointing at  Track  <";
+                            tcnt = -5;
+                            cntan = 20;
+                        }
                     }
                 }
                 if (!holdit && fase != Phase.PAUSETRIGGER && starcnt == 0) {
                     rd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    arrow(madness[spectate].point, madness[spectate].missedcp, checkpoints, conto, arrace);
 
-                    int num_cars = GameFacts.numberOfPlayers;
-                    for (int array_one = 0; array_one < num_cars; array_one++) {
-                        boolean flag_status = false;
-                        for (int array_two = 0; array_two < num_cars; array_two++) {
-                            if (checkpoints.pos[array_two] == array_one && checkpoints.dested[array_two] == 0
-                                    && !flag_status) {
-                                int y_value = 30; // use to move status up or down
-                                int x_value = GameFacts.screenWidth - 700; // use to move status left or right
+                    if (!arrowDisabled) {
+                        arrow(madness[spectate].point, madness[spectate].missedcp, checkpoints, conto, arrace);
+                    }
 
-                                rd.setColor(new Color(0, 0, 100));
-                                if (array_one == 0)
-                                    rd.drawString("1st", 543 + x_value, 76 + 30 + y_value * array_one);
-                                if (array_one == 1)
-                                    rd.drawString("2nd", 541 + x_value, 76 + 30 + y_value * array_one);
-                                if (array_one == 2)
-                                    rd.drawString("3rd", 541 + x_value, 76 + 30 + y_value * array_one);
-                                if (array_one >= 3)
-                                    rd.drawString((array_one + 1) + "th", 541 + x_value, 76 + y_value + 30 * array_one);
-                                rd.setColor(new Color(0, 0, 0));
-                                rd.drawString(names[sc[array_two]],
-                                        600 - ((FontHandler.fMetrics.stringWidth(names[sc[array_two]])) / 2) + x_value,
-                                        70 + y_value + 30 * array_one);
-                                if (madness[0].im == array_two) {
-                                    int red = (int) (159.0F + (159.0F * ((float) Medium.snap[0] / 100.0F)));
-                                    if (red > 255)
-                                        red = 255;
-                                    if (red < 0)
-                                        red = 0;
-                                    int green = (int) (207.0F + (207.0F * ((float) Medium.snap[1] / 100.0F)));
-                                    if (green > 255)
-                                        green = 255;
-                                    if (green < 0)
-                                        green = 0;
-                                    int blue = (int) (255.0F + (255.0F * ((float) Medium.snap[2] / 100.0F)));
-                                    if (blue > 255)
-                                        blue = 255;
-                                    if (blue < 0)
-                                        blue = 0;
-                                    rd.setColor(new Color(red, green, blue));
-                                    rd.drawRect(531 + x_value, 58 + y_value + 30 * array_one, 114, 25);
-                                    rd.drawRect(532 + x_value, 59 + y_value + 30 * array_one, 112, 23);
-                                }
-                                if (arrace) {
-                                    int dmg = (int) (60F * ((float) madness[array_two].hitmag
-                                            / (float) madness[array_two].stat.maxmag));
+                    if (!opstatusDisabled) {
+                        int num_cars = GameFacts.numberOfPlayers;
+                        for (int array_one = 0; array_one < num_cars; array_one++) {
+                            boolean flag_status = false;
+                            for (int array_two = 0; array_two < num_cars; array_two++) {
+                                if (checkpoints.pos[array_two] == array_one && checkpoints.dested[array_two] == 0
+                                        && !flag_status) {
+                                    int y_value = 30; // use to move status up or down
+                                    int x_value = GameFacts.screenWidth - 700; // use to move status left or right
 
-                                    int red = 244;
-                                    int green = 244;
-                                    int blue = 11;
-
-                                    if (dmg > 20)
-                                        green = (int) (244F - 233F * ((float) (dmg - 20) / 40F));
-
-                                    red = (int) ((float) red + (float) red * ((float) Medium.snap[0] / 100F));
-                                    if (dmg > 60)
-                                        dmg = 60;
-                                    if (red > 255)
-                                        red = 255;
-                                    if (red < 0)
-                                        red = 0;
-
-                                    green = (int) ((float) green + (float) green * ((float) Medium.snap[1] / 100F));
-                                    if (green > 255)
-                                        green = 255;
-                                    if (green < 0)
-                                        green = 0;
-
-                                    blue = (int) ((float) blue + (float) blue * ((float) Medium.snap[2] / 100F));
-                                    if (blue > 255)
-                                        blue = 255;
-                                    if (blue < 0)
-                                        blue = 0;
-
-                                    rd.setColor(new Color(red, green, blue));
-                                    rd.fillRect(565 + x_value, 75 + y_value + 30 * array_one, dmg, 5);
-                                } else {
-                                    int pwr = (int) (60F * (madness[array_two].power / 98F));
-                                    if (pwr > 98) {
-                                        pwr = 98;
+                                    rd.setColor(new Color(0, 0, 100));
+                                    if (array_one == 0)
+                                        rd.drawString("1st", 543 + x_value, 76 + 30 + y_value * array_one);
+                                    if (array_one == 1)
+                                        rd.drawString("2nd", 541 + x_value, 76 + 30 + y_value * array_one);
+                                    if (array_one == 2)
+                                        rd.drawString("3rd", 541 + x_value, 76 + 30 + y_value * array_one);
+                                    if (array_one >= 3)
+                                        rd.drawString((array_one + 1) + "th", 541 + x_value, 76 + y_value + 30 * array_one);
+                                    rd.setColor(new Color(0, 0, 0));
+                                    rd.drawString(names[sc[array_two]],
+                                            600 - ((FontHandler.fMetrics.stringWidth(names[sc[array_two]])) / 2) + x_value,
+                                            70 + y_value + 30 * array_one);
+                                    if (madness[0].im == array_two) {
+                                        int red = (int) (159.0F + (159.0F * ((float) Medium.snap[0] / 100.0F)));
+                                        if (red > 255)
+                                            red = 255;
+                                        if (red < 0)
+                                            red = 0;
+                                        int green = (int) (207.0F + (207.0F * ((float) Medium.snap[1] / 100.0F)));
+                                        if (green > 255)
+                                            green = 255;
+                                        if (green < 0)
+                                            green = 0;
+                                        int blue = (int) (255.0F + (255.0F * ((float) Medium.snap[2] / 100.0F)));
+                                        if (blue > 255)
+                                            blue = 255;
+                                        if (blue < 0)
+                                            blue = 0;
+                                        rd.setColor(new Color(red, green, blue));
+                                        rd.drawRect(531 + x_value, 58 + y_value + 30 * array_one, 114, 25);
+                                        rd.drawRect(532 + x_value, 59 + y_value + 30 * array_one, 112, 23);
                                     }
-                                    rd.setColor(new Color(45, 150, 255));
-                                    rd.fillRect(565 + x_value, 75 + y_value + 30 * array_one, pwr, 5);
-                                }
-                                rd.setColor(new Color(0, 0, 0));
-                                rd.drawRect(565 + x_value, 75 + y_value + 30 * array_one, 60, 5);
+                                    if (arrace) {
+                                        int dmg = (int) (60F * ((float) madness[array_two].hitmag
+                                                / (float) madness[array_two].stat.maxmag));
 
-                                flag_status = true;
+                                        int red = 244;
+                                        int green = 244;
+                                        int blue = 11;
+
+                                        if (dmg > 20)
+                                            green = (int) (244F - 233F * ((float) (dmg - 20) / 40F));
+
+                                        red = (int) ((float) red + (float) red * ((float) Medium.snap[0] / 100F));
+                                        if (dmg > 60)
+                                            dmg = 60;
+                                        if (red > 255)
+                                            red = 255;
+                                        if (red < 0)
+                                            red = 0;
+
+                                        green = (int) ((float) green + (float) green * ((float) Medium.snap[1] / 100F));
+                                        if (green > 255)
+                                            green = 255;
+                                        if (green < 0)
+                                            green = 0;
+
+                                        blue = (int) ((float) blue + (float) blue * ((float) Medium.snap[2] / 100F));
+                                        if (blue > 255)
+                                            blue = 255;
+                                        if (blue < 0)
+                                            blue = 0;
+
+                                        rd.setColor(new Color(red, green, blue));
+                                        rd.fillRect(565 + x_value, 75 + y_value + 30 * array_one, dmg, 5);
+                                    } else {
+                                        int pwr = (int) (60F * (madness[array_two].power / 98F));
+                                        if (pwr > 98) {
+                                            pwr = 98;
+                                        }
+                                        rd.setColor(new Color(45, 150, 255));
+                                        rd.fillRect(565 + x_value, 75 + y_value + 30 * array_one, pwr, 5);
+                                    }
+                                    rd.setColor(new Color(0, 0, 0));
+                                    rd.drawRect(565 + x_value, 75 + y_value + 30 * array_one, 60, 5);
+
+                                    flag_status = true;
+                                }
                             }
                         }
                     }

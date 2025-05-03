@@ -12,6 +12,8 @@ lightson()
 
 name(Space Walk)
 
+soundtrack(love,zip)
+
 set(48,0,0,0)p
 set(15,0,5600,0)
 set(35,0,6225,0)pr

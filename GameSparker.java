@@ -500,6 +500,11 @@ public class GameSparker extends Applet implements Runnable {
         Medium.lightson = false;
         Medium.detailtype = 2;
         Medium.ground = 250;
+
+        //reset noarrow and nostatus
+        xtgraphics.arrowDisabled = false;
+        xtgraphics.opstatusDisabled = false;
+
         view = 0;
 
         final int wall_id = getModel("thewall");
@@ -567,6 +572,12 @@ public class GameSparker extends Applet implements Runnable {
                 }
                 if (line.startsWith("lightson"))
                     Medium.lightson = true;
+
+                if (line.startsWith("noarrow"))
+                    xtgraphics.arrowDisabled = true;
+                if (line.startsWith("nostatus"))
+                    xtgraphics.opstatusDisabled = true;
+
                 if (line.startsWith("set")) {
                     int k1 = Utility.getint("set", line, 0);
                     k1 += 6;
@@ -1199,6 +1210,11 @@ public class GameSparker extends Applet implements Runnable {
                 repaint();
                 loadstage(aconto1, aconto, trackers, checkpoints, xtgraphics, amadness, record, true);
                 xtgraphics.fase = Phase.STAGESELECT;
+            }
+            if (xtgraphics.fase == Phase.LOADSTAGE2) { // for custom stage loading
+                repaint();
+                loadstage(aconto1, aconto, trackers, checkpoints, xtgraphics, amadness, record, true);
+                xtgraphics.loadmusic(checkpoints.stage, i1);
             }
             if (xtgraphics.fase == Phase.STAGESELECT) {
                 rd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);

@@ -267,12 +267,15 @@ public class DevTool {
                 if (args.length == 1) {
                     try {
                         String path = args[0];
+                        xt.nfmmode = 3;
+                        print("Loading stage from: " + path + ".txt");
+                        GameSparker.loadStageCus = path;    //idk
+                        checkpoints.stage = -1;
+                        if (GameSparker.gameStateID == 0) {
+                            xt.fase = Phase.LOADSTAGE2;
+                        }
                         if (GameSparker.gameStateID == 1) {
-                            checkpoints.stage = -1;
                             xt.fase = Phase.LOADSTAGE;
-                            xt.nfmmode = 3;
-                            GameSparker.loadStageCus = path;    //idk
-                            print("Loading stage from: " + path + ".txt");
                         }
                     } catch (NumberFormatException e) {
                         print("Invalid argument.");
@@ -383,6 +386,7 @@ public class DevTool {
         commandDescriptions.put("spawn_ai", "Spawns an AI car (unimplemented).");
         commandDescriptions.put("nfm", "Sets the NFM mode. Usage: nfm <n>");
         commandDescriptions.put("loadstage", "Loads a stage from the specified path. Usage: loadstage <directory>");
+        commandDescriptions.put("loadstage2", "Loads a stage from the specified path mid-game. Usage: loadstage2 <directory>");
         commandDescriptions.put("stagesubdir", "Sets the stage subdirectory. Usage: stagesubdir <subdir>");
         commandDescriptions.put("status", "Displays the current game state.");
         commandDescriptions.put("clear", "Clears the console.");

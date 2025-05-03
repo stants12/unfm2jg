@@ -67,6 +67,8 @@ public class ContO {
 
     public boolean blackout = false;
 
+    private boolean bool16 = false;
+
     private void pdust(int i, Graphics2D rd, int j) {
         if (j * dov[i] > 0) {
             int k;
@@ -241,6 +243,9 @@ public class ContO {
                     l = 0;
                     byte0 = 0;
                     flag4 = false;
+                    if (!bool16) {
+                        flag4 = false;
+                    }
                 }
                 if (flag) {
                     if (line.startsWith("gr")) {
@@ -390,6 +395,11 @@ public class ContO {
                 }
                 if (line.startsWith("stonecold")) {
                     noline = true;
+                }
+                if (line.startsWith("newstone")) {
+                    noline = true;
+                    flag4 = true;
+                    bool16 = true;
                 }
                 if (line.startsWith("road")) {
                     flag3 = true;

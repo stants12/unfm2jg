@@ -130,7 +130,8 @@ public enum Phase {
     /**
      * 9001 - for loading a sage (custom)
      */
-    LOADSTAGE(9001);
+    LOADSTAGE(9001),
+    LOADSTAGE2(9004);
 
     public final int value;
     
