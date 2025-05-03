@@ -138,6 +138,8 @@ public class Medium {
 
     public static int detailtype = 2;
 
+    public static boolean noclouds = false;
+
     public static float random() {
         if (cntrn == 0) {
             int i = 0;
@@ -501,10 +503,11 @@ public class Medium {
         fo = 1.0F;
         gofo = (float) (0.33000001311302185D + Math.random() * 1.3400000000000001D);
         detailtype = 2;
+        noclouds = false;
     }
 
     public static void newclouds(int i, int j, int k, int l) {
-        if (detailtype == 0 || detailtype == 1)
+        if (detailtype == 0 || detailtype == 1 || noclouds)
             return;
         clx = null;
         clz = null;
@@ -648,7 +651,7 @@ public class Medium {
     }
 
     private static void drawclouds(Graphics2D graphics2d) {
-        if (detailtype == 0 || detailtype == 1)
+        if (detailtype == 0 || detailtype == 1 || noclouds)
             return;
         for (int i = 0; i < noc; i++) {
             int j = cx + (int) ((clx[i] - x / 20 - cx) * RadicalMath.cos(xz) - (clz[i] - z / 20 - cz) * RadicalMath.sin(xz));
@@ -1543,6 +1546,8 @@ public class Medium {
     }
 
     public static void setClouds(int i, int j, int k, int l, int i1) {
+        if (noclouds)
+            return;
         if (l < 0) {
             l = 0;
         }
@@ -1740,7 +1745,7 @@ public class Medium {
             if (adv > 900) {
                 vert = true;
             }
-            if (adv < -500) {
+            if (adv < 500) {
                 vert = false;
             }
         } else {
@@ -2028,7 +2033,7 @@ public class Medium {
         if (adv > 900) {
             vert = true;
         }
-        if (adv < -500) {
+        if (adv < 500) {
             vert = false;
         }
         int i1 = 500 + adv;

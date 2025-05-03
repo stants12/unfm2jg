@@ -163,7 +163,7 @@ class xtGraphics extends Panel implements Runnable {
     // public final RadicalMod[] stracks;
     public static RadicalMusic strack;
     public static RadicalMusic intertrack = new RadicalMod();
-    public static RadicalMusic intercar = new RadicalMod();
+    //public static RadicalMusic intercar = new RadicalMod();
     public static boolean loadedt = false;
 
     private int lastload;
@@ -4775,55 +4775,36 @@ class xtGraphics extends Panel implements Runnable {
             intertrack.unload();
         }
         intertrack = null;
-        if (intercar != null) {
-            intercar.unload();
-        }
-        intercar = null;
+        // if (intercar != null) {
+        //     intercar.unload();
+        // }
+        // intercar = null;
     }
 
-    void loadIntertrack() {
-        File mp3 = new File("data/music/interface/stages.mp3");
-        File ogg = new File("data/music/interface/stages.ogg");
-        File mid = new File("data/music/interface/stages.mid");
-        File wav = new File("data/music/interface/stages.wav");
-        File radq = new File("data/music/interface/stages.radq");
+    void loadIntertrack(String track) {     //load interface track
+        File mp3 = new File("data/music/interface/" + track + ".mp3");
+        File ogg = new File("data/music/interface/" + track + ".ogg");
+        File mid = new File("data/music/interface/" + track + ".mid");
+        File wav = new File("data/music/interface/" + track + ".wav");
+        File radq = new File("data/music/interface/" + track + ".radq");
+        File zip = new File("data/music/interface/" + track + ".zip");
+        File zipo = new File("data/music/interface/" + track + ".zipo");
 
         try {
             if (mp3.exists()) {
-                intertrack = TrackZipLoader.loadMusic("data/music/interface/stages.mp3");
+                intertrack = TrackZipLoader.loadMusic("data/music/interface/" + track + ".mp3");
             } else if (ogg.exists()) {
-                intertrack = TrackZipLoader.loadMusic("data/music/interface/stages.ogg");
+                intertrack = TrackZipLoader.loadMusic("data/music/interface/" + track + ".ogg");
             } else if (mid.exists()) {
-                intertrack = TrackZipLoader.loadMusic("data/music/interface/stages.mid");
+                intertrack = TrackZipLoader.loadMusic("data/music/interface/" + track + ".mid");
             } else if (wav.exists()) {
-                intertrack = TrackZipLoader.loadMusic("data/music/interface/stages.wav");
+                intertrack = TrackZipLoader.loadMusic("data/music/interface/" + track + ".wav");
+            } else if (zip.exists()) {
+                intertrack = TrackZipLoader.loadZip("data/music/interface/" + track + ".zip", false);
             } else if (radq.exists()) {
-                intertrack = TrackZipLoader.loadZip("data/music/interface/stages.radq", false);
-            }
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void loadIntercar() {
-
-        File mp3 = new File("data/music/interface/cars.mp3");
-        File ogg = new File("data/music/interface/cars.ogg");
-        File mid = new File("data/music/interface/cars.mid");
-        File wav = new File("data/music/interface/cars.wav");
-        File radq = new File("data/music/interface/cars.radq");
-
-        try {
-            if (mp3.exists()) {
-                intercar = TrackZipLoader.loadMusic("data/music/interface/cars.mp3");
-            } else if (ogg.exists()) {
-                intercar = TrackZipLoader.loadMusic("data/music/interface/cars.ogg");
-            } else if (mid.exists()) {
-                intercar = TrackZipLoader.loadMusic("data/music/interface/cars.mid");
-            } else if (wav.exists()) {
-                intercar = TrackZipLoader.loadMusic("data/music/interface/cars.wav");
-            } else if (radq.exists()) {
-                intercar = TrackZipLoader.loadZip("data/music/interface/cars.radq", false);
+                intertrack = TrackZipLoader.loadZip("data/music/interface/" + track + ".radq", false);
+            } else if (zipo.exists()) {
+                intertrack = TrackZipLoader.loadZip("data/music/interface/" + track + ".zipo", false);
             }
         } catch (final IOException e) {
             e.printStackTrace();
@@ -4837,7 +4818,7 @@ class xtGraphics extends Panel implements Runnable {
         /// aaaaaaaa
         (new Thread() {
             public void run() {
-                loadIntercar();
+                loadIntertrack("cars");
             }
         }).start();
         pnext = 0;
@@ -4875,7 +4856,7 @@ class xtGraphics extends Panel implements Runnable {
             carsbginflex();
             flatrstart = 6;
         }
-        intercar.play();
+        intertrack.play();
         rd.drawImage(selectcar, Utility.centeredImageX(selectcar), 12, null);
         Medium.crs = true;
         Medium.x = -GameFacts.screenWidth/2;
@@ -5089,9 +5070,9 @@ class xtGraphics extends Panel implements Runnable {
             sm.play("tick");
             if (flipo == 0 && (sc[0] - 7) * 2 < unlocked) {
                 lastload = -11;
-                intercar.setPaused(true);
-                intercar.unload();
-                loadIntertrack();
+                intertrack.setPaused(true);
+                intertrack.unload();
+                loadIntertrack("red_dream_nfmmix");
                 Medium.crs = false;
                 fase = Phase.NPLAYERSCHECK;
             }

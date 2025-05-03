@@ -13,6 +13,8 @@ fadefrom(5000)
 
 nlaps(3)
 
+detail(0)
+
 set(10,0,0,0)p
 chk(40,0,2550,0)
 set(10,0,5600,180)p

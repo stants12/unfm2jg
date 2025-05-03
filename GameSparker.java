@@ -559,6 +559,8 @@ public class GameSparker extends Applet implements Runnable {
                             Utility.getint("clouds", line, 2),
                             Utility.getint("clouds", line, 3), Utility.getint("clouds", line, 4));
                 }
+                if (line.startsWith("noclouds"))
+                    Medium.noclouds = true;
                 if (line.startsWith("fadefrom")) {
                     Medium.fadeFrom(Utility.getint("fadefrom", line, 0));
                     Medium.origfade = Medium.fade[0];
@@ -1200,7 +1202,7 @@ public class GameSparker extends Applet implements Runnable {
             }
             if (xtgraphics.fase == Phase.STAGESELECT) {
                 rd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-                xtgraphics.trackbg(false);
+                xtgraphics.trackbg(true);
                 Medium.d(rd);
                 Medium.aroundTrack(checkpoints);
                 int i3 = 0;
